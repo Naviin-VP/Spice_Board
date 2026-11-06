@@ -1,0 +1,5 @@
+
+Django==5.2.19
+mssql-django==2.0.0
+pyodbc>=5.2
+python-dotenv>=1.0

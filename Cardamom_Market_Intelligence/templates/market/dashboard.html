@@ -1,0 +1,3178 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cardamom Market Intelligence</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+:root{--forest:#294b3b;--deep:#1e392e;--sage:#e7eee5;--gold:#c49a55;--gold-soft:#f4ead7;--terra:#bd7659;--cream:#f7f5ef;--paper:#fffefa;--text:#29362f;--muted:#788279;--line:#e9e5da;--shadow:0 12px 34px rgba(48,61,48,.075)}
+*{box-sizing:border-box}
+body{background:radial-gradient(ellipse at 8% 10%,rgba(196,154,85,.09),transparent 28%),radial-gradient(ellipse at 92% 32%,rgba(111,139,98,.08),transparent 30%),var(--cream);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.55}
+.navbar{background:rgba(30,57,46,.97);padding:16px 0;box-shadow:0 5px 22px rgba(24,43,34,.14);position:relative;z-index:5}
+.brand{color:#fffefa;font-size:19px;font-weight:700;letter-spacing:.7px}.brand span{color:#e2bd78}
+.navbar .text-light{color:rgba(255,255,255,.76)!important}
+.hero{color:white;padding:66px 0 82px;position:relative;overflow:hidden;background:radial-gradient(circle at 84% 24%,rgba(221,190,127,.2),transparent 22%),radial-gradient(circle at 96% 100%,rgba(145,170,128,.2),transparent 28%),linear-gradient(118deg,#294b3b 0%,#355b45 55%,#627b55 100%)}
+.hero:after{content:"";position:absolute;width:340px;height:340px;right:7%;top:-205px;border:1px solid rgba(255,255,255,.16);border-radius:50%;box-shadow:0 0 0 28px rgba(255,255,255,.025),0 0 0 58px rgba(255,255,255,.02);pointer-events:none}
+.hero .container{position:relative;z-index:1}.hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(32px,4vw,46px);line-height:1.15;font-weight:700;letter-spacing:-.5px;max-width:700px}
+.hero p{color:rgba(255,255,255,.82)}.hero .text-uppercase{letter-spacing:2.2px;font-weight:700;color:#e8c98f}
+.gold-line{width:58px;height:4px;border-radius:5px;background:#e0b96f;margin:20px 0}
+.dashboard-section{margin-top:-31px;position:relative;z-index:2}
+.stat-card,.section-card,.insight-card{background:var(--paper);border:1px solid rgba(224,219,205,.85);border-radius:17px;box-shadow:var(--shadow)}
+.stat-card{padding:23px 24px;height:100%;position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease}
+.stat-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#6f8b62}
+.stat-card:hover,.insight-card:hover{transform:translateY(-4px);box-shadow:0 18px 42px rgba(48,61,48,.12)}
+.section-card{padding:26px;margin-top:25px}.insight-card{padding:22px;height:100%;border-top:3px solid var(--gold);transition:transform .22s ease,box-shadow .22s ease}
+.stat-label,.insight-label{color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.15px}
+.stat-value{color:var(--forest);font-size:29px;font-weight:700;margin-top:11px;letter-spacing:-.7px}
+.insight-value{color:var(--forest);font-size:25px;font-weight:700;margin-top:12px;overflow-wrap:anywhere}
+.insight-subtitle,.insight-date{font-size:13px;color:var(--muted);margin-top:8px}
+.positive{color:#37815b!important}.negative{color:#b85f49!important}.neutral{color:#788279!important}
+.section-title{color:var(--forest);font-weight:700;letter-spacing:-.2px}
+.market-tag{display:inline-block;background:var(--sage);color:#385944;border:1px solid #d8e4d6;padding:8px 15px;border-radius:999px;margin:5px 5px 5px 0;font-size:13px;font-weight:600;transition:background .2s,transform .2s}
+.market-tag:hover{background:#d5e2d3;transform:translateY(-2px)}
+.chart-container{position:relative;height:380px;width:100%;padding:12px 4px 4px}
+.filter-panel{border-top:0;background:linear-gradient(135deg,#fffefa,#fbfaf5);position:relative}
+.filter-panel:before{content:"";position:absolute;top:0;left:26px;right:26px;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,#6f8b62,var(--gold),var(--terra))}
+.form-label{font-size:12px;font-weight:700;color:#536557;margin-bottom:7px}
+.form-select,.form-control{min-height:44px;border:1px solid #e2e2d8;border-radius:10px;background-color:#fff;color:var(--text);font-size:14px;box-shadow:none!important}
+.form-select:focus,.form-control:focus{border-color:#8da58b;box-shadow:0 0 0 3px rgba(111,139,98,.13)!important}
+.btn-filter{background:var(--forest);color:white;border:1px solid var(--forest);border-radius:10px;font-weight:600;padding:10px 16px;transition:background .2s,transform .2s}
+.btn-filter:hover{background:var(--deep);color:white;transform:translateY(-1px)}
+#resetFilters{border-radius:10px;border-color:#d9ddd5;color:#667269;background:white}
+#resetFilters:hover{background:#f0f1eb}
+.filter-status,.explorer-info{font-size:12px;color:var(--muted)}
+.quick-date-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.quick-date-label{font-size:12px;font-weight:700;color:#69766b;margin-right:3px}
+.quick-date-btn{border:1px solid #dce4d8;background:#f3f6f0;color:#49634e;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:700;transition:all .18s ease}
+.quick-date-btn:hover,.quick-date-btn.active{background:#294b3b;border-color:#294b3b;color:#fff}
+.comparison-note{background:#f4f6f0;border:1px solid #e1e8dc;border-radius:12px;padding:13px 15px;color:#637064;font-size:12px;line-height:1.55}
+.comparison-note strong{color:#3f5b46}
+.comparison-stat{height:100%;background:#fbfaf5;border:1px solid #ebe6d9;border-radius:13px;padding:17px 18px}
+.comparison-stat-value{font-size:21px;font-weight:700;color:var(--forest);margin-top:8px;overflow-wrap:anywhere}
+.comparison-stat-note{font-size:12px;color:var(--muted);margin-top:4px}
+.period-selector-wrap{width:min(100%,220px)}
+.period-selector-wrap .form-select{font-weight:700;color:var(--forest)}
+#periodAnalysisSection{overflow:hidden}
+
+#comparisonMarkets{min-height:132px;padding:8px}
+#comparisonMarkets option{padding:7px 9px;border-radius:6px}
+#comparisonMarkets option:checked{background:#294b3b linear-gradient(0deg,#294b3b 0%,#294b3b 100%);color:white}
+.movement-pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+.movement-up{background:#e6f1e8;color:#36764e}
+.movement-down{background:#f7e9e3;color:#ae604a}
+.movement-flat{background:#eef0eb;color:#6e786f}
+
+
+.table-card{overflow:hidden}.table{--bs-table-bg:transparent;margin-bottom:0}
+.table thead th{background:#edf1e9;color:#3b5644;font-size:12px;font-weight:700;letter-spacing:.35px;white-space:nowrap;padding:15px 14px;border-color:#e1e7dc}
+.table tbody td{padding:13px 14px;vertical-align:middle;font-size:13px;border-color:#eeece4;color:#47534b}
+.table tbody tr{transition:background .15s}.table tbody tr:hover{background:#f7f8f2}
+.price-value{color:var(--forest)!important;font-weight:700}
+.btn-export{background:var(--gold-soft);color:#80602e;border:1px solid #ead9b8;border-radius:9px;font-size:13px;font-weight:700;padding:9px 14px}
+.btn-export:hover{background:#ead7b2;color:#684d25}
+.pagination .page-link{color:var(--forest);border-color:#e5e4da;border-radius:8px;margin-left:4px;font-size:13px}
+.pagination .active .page-link{background:var(--forest);border-color:var(--forest);color:white}
+.ranking-number{background:var(--gold-soft);color:#80602e;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+.sortable-heading{cursor:pointer;user-select:none}.sortable-heading:hover{color:#9b7135!important}
+footer{background:#20392e;color:rgba(255,255,255,.72);padding:24px 0;margin-top:48px;font-size:12px;letter-spacing:.25px}
+/* Subtle premium motion */
+@keyframes heroRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes softGlow{0%,100%{opacity:.72;transform:scale(1)}50%{opacity:1;transform:scale(1.045)}}
+@keyframes revealUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.hero .text-uppercase,.hero h1,.hero .gold-line,.hero p{animation:heroRise .7s cubic-bezier(.2,.7,.2,1) both}
+.hero h1{animation-delay:.08s}.hero .gold-line{animation-delay:.16s}.hero p{animation-delay:.23s}
+.hero:after{animation:softGlow 9s ease-in-out infinite}
+.section-card,.stat-card,.insight-card{will-change:transform,opacity}
+.section-card{transition:box-shadow .28s ease,border-color .28s ease}
+.section-card:hover{box-shadow:0 16px 42px rgba(48,61,48,.09);border-color:rgba(196,154,85,.38)}
+.stat-card,.insight-card{transition:transform .26s cubic-bezier(.2,.7,.2,1),box-shadow .26s ease,border-color .26s ease}
+.stat-card:hover,.insight-card:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(41,75,59,.13);border-color:rgba(196,154,85,.45)}
+.btn-filter,.btn-export,.quick-date-btn,#resetFilters,.form-select,.form-control{transition:all .2s ease}
+.btn-filter:active,.btn-export:active,.quick-date-btn:active{transform:scale(.98)}
+.btn-export:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(128,96,46,.13)}
+.table tbody tr{transition:background .18s ease,transform .18s ease}
+.table tbody tr:hover{transform:translateX(2px)}
+.market-tag{transition:background .22s ease,transform .22s ease,box-shadow .22s ease}
+.market-tag:hover{box-shadow:0 5px 14px rgba(41,75,59,.1)}
+/* Reveal sections only when the browser supports the observer enhancement. */
+.motion-ready .reveal-on-scroll{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+.motion-ready .reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){.navbar{padding:13px 0}.brand{font-size:16px}.hero{padding:48px 0 66px}.hero h1{font-size:30px}.dashboard-section{margin-top:-23px}.section-card{padding:19px;margin-top:19px;border-radius:14px}.stat-card{padding:19px}.stat-value{font-size:24px}.insight-value{font-size:21px}.chart-container{height:300px}.table thead th,.table tbody td{padding:11px 10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.motion-ready .reveal-on-scroll{opacity:1!important;transform:none!important}}
+
+    
+    /* VIBRANT MARKET-INTELLIGENCE EXPERIENCE */
+    :root{--forest:#123f32;--deep:#0b2b24;--sage:#e4f1e9;--gold:#e7a83e;--gold-soft:#fff1d6;--terra:#d66d4d;--cream:#f6f8f3;--paper:#ffffff;--text:#20352e;--muted:#718078;--line:#e1e9e2;--shadow:0 16px 42px rgba(20,61,47,.09);--teal:#1b8d83;--blue:#4b79c8;--plum:#8a65b4}
+    body{background:radial-gradient(ellipse at 0 14%,rgba(231,168,62,.13),transparent 25%),radial-gradient(ellipse at 100% 38%,rgba(27,141,131,.10),transparent 28%),linear-gradient(180deg,#f7faf5,#f2f6f0);}
+    .navbar{background:linear-gradient(100deg,#092b24,#164b3a 58%,#23634a);padding:14px 0;border-bottom:1px solid rgba(255,255,255,.13)}
+    .navbar .container{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:18px;letter-spacing:1.1px}.brand span{color:#ffc96c}
+    .nav-right{display:flex;align-items:flex-end;flex-direction:column;gap:8px}.nav-shortcuts{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.nav-shortcuts a{color:#f8f4e9;text-decoration:none;font-size:11px;font-weight:700;padding:6px 10px;border:1px solid rgba(255,255,255,.22);border-radius:999px;transition:.2s}.nav-shortcuts a:hover{background:#f2b84b;color:#17392d;transform:translateY(-2px)}
+    .hero{padding:78px 0 96px;background:linear-gradient(90deg,rgba(7,38,29,.96) 0%,rgba(12,55,41,.88) 48%,rgba(15,54,41,.38) 100%),url('https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=2000&q=85') center 48%/cover no-repeat;isolation:isolate}
+    .hero:before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(120deg,rgba(9,42,31,.25),transparent 60%);animation:heroTint 12s ease-in-out infinite alternate}
+    .hero:after{width:430px;height:430px;right:5%;top:-190px;border-color:rgba(255,207,119,.3);box-shadow:0 0 0 34px rgba(255,255,255,.045),0 0 0 72px rgba(255,255,255,.025);animation:softGlow 8s ease-in-out infinite}
+    .hero h1{font-size:clamp(36px,5vw,58px);max-width:760px;text-shadow:0 4px 25px rgba(0,0,0,.2)}.hero-copy{max-width:620px;font-size:16px}.gold-line{width:76px;height:5px;background:linear-gradient(90deg,#ffd16d,#e58c43);box-shadow:0 0 18px rgba(255,190,83,.35)}
+    .hero-pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}.hero-pills span{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid rgba(255,255,255,.26);border-radius:999px;background:rgba(255,255,255,.11);backdrop-filter:blur(8px);font-size:12px;font-weight:700;color:#fff8e8}.pulse-dot{width:8px;height:8px;border-radius:50%;background:#7ee0a3;box-shadow:0 0 0 0 rgba(126,224,163,.65);animation:pulseDot 1.8s infinite}
+    .dashboard-section{margin-top:-38px}.section-card,.stat-card,.insight-card{border:1px solid rgba(220,232,221,.95);box-shadow:0 12px 34px rgba(25,65,48,.075);border-radius:19px}.section-card{padding:27px}.section-title{color:#174b39}.filter-panel{background:linear-gradient(135deg,#fff,#f2f8f2)}
+    .stat-card{padding:24px 24px 22px;background:linear-gradient(145deg,#fff 0%,#f7fbf7 100%)}.stat-card:before{width:5px;background:linear-gradient(180deg,#20a18b,#72b77c)}.stat-card:nth-child(1),.row.g-4.mt-1>.col-md-3:nth-child(1) .stat-card{background:linear-gradient(145deg,#fff,#eaf7f1)}.row.g-4.mt-1>.col-md-3:nth-child(2) .stat-card{background:linear-gradient(145deg,#fff,#edf3ff)}.row.g-4.mt-1>.col-md-3:nth-child(3) .stat-card{background:linear-gradient(145deg,#fff,#fff5e4)}.row.g-4.mt-1>.col-md-3:nth-child(4) .stat-card{background:linear-gradient(145deg,#fff,#f5effb)}
+    .row.g-4.mt-1>.col-md-3:nth-child(2) .stat-card:before{background:linear-gradient(180deg,#4b79c8,#8ca9e8)}.row.g-4.mt-1>.col-md-3:nth-child(3) .stat-card:before{background:linear-gradient(180deg,#e7a83e,#f1cb72)}.row.g-4.mt-1>.col-md-3:nth-child(4) .stat-card:before{background:linear-gradient(180deg,#8a65b4,#b89ad5)}
+    .stat-value{font-size:30px;color:#174b39}.stat-label,.insight-label{letter-spacing:1.25px}.insight-card{background:linear-gradient(145deg,#fff,#fbfcf8);border-top:4px solid #e7a83e}.market-tag{background:#e7f4eb;border-color:#d4e9d9;color:#205b40}.market-tag:nth-child(3n){background:#fff2df;border-color:#f3dfbd;color:#936021}.market-tag:nth-child(3n+1){background:#e8f1ff;border-color:#d6e3f8;color:#365f9c}
+    .btn-filter{background:linear-gradient(100deg,#14513c,#207b5a);border:0;box-shadow:0 6px 15px rgba(20,81,60,.17)}.btn-export{background:linear-gradient(100deg,#f5c76b,#e9a344);color:#3e321d;border:0;font-weight:800;border-radius:10px}.btn-export:hover{background:linear-gradient(100deg,#ffd889,#edae4f);color:#332817}
+    .form-select:focus,.form-control:focus{border-color:#38a58a;box-shadow:0 0 0 3px rgba(56,165,138,.15)!important}.table thead th{background:#edf5ee;color:#27533f;border-bottom:1px solid #dce9dd}.table tbody tr:hover{background:#f1f8f2}
+    .section-card[id],.section-card.table-card{scroll-margin-top:22px}.section-card:hover{border-color:#c8dfcd}.chart-container{border-radius:15px;background:linear-gradient(180deg,rgba(238,247,239,.55),rgba(255,255,255,0));}
+    .stat-card,.insight-card,.section-card,.market-tag,.btn-filter,.btn-export{transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s ease,border-color .28s ease,background .28s ease}.stat-card:hover,.insight-card:hover{transform:translateY(-6px) scale(1.008);box-shadow:0 20px 44px rgba(20,76,54,.14)}
+    .section-title:after{content:"";display:block;width:34px;height:3px;margin-top:8px;border-radius:4px;background:linear-gradient(90deg,#e8ae4e,#1d987c)}
+    @keyframes pulseDot{0%{box-shadow:0 0 0 0 rgba(126,224,163,.65)}70%{box-shadow:0 0 0 8px rgba(126,224,163,0)}100%{box-shadow:0 0 0 0 rgba(126,224,163,0)}}
+    @keyframes heroTint{from{opacity:.45;transform:translateX(-1%)}to{opacity:1;transform:translateX(1%)}}
+    @media(max-width:767px){.navbar .container{align-items:flex-start;flex-direction:column}.nav-right{align-items:flex-start;width:100%}.nav-shortcuts{justify-content:flex-start}.hero{padding:55px 0 78px;background-position:62% center}.hero-pills{gap:7px}.hero-pills span{font-size:10px;padding:7px 10px}.dashboard-section{margin-top:-25px}.section-card{padding:19px}}
+    @media(prefers-reduced-motion:reduce){.pulse-dot,.hero:before{animation:none!important}}
+
+
+    /* Next release: colourful intelligence modules */
+    .report-copy{background:linear-gradient(120deg,#eff8f0,#fff8e9);border:1px solid #dcebdd;border-left:5px solid #e7a83e;border-radius:14px;padding:20px;color:#29463a;line-height:1.8}
+    #heatmapTable{min-width:680px;border-collapse:separate;border-spacing:5px}#heatmapTable th{font-size:12px;color:#496457;background:#f0f5ef;border-radius:8px;padding:10px}#heatmapTable td{border:0;border-radius:9px;font-weight:800;min-width:88px;padding:13px 8px;color:#173d30;transition:transform .18s ease,filter .18s ease}#heatmapTable td:hover{transform:translateY(-3px);filter:saturate(1.2)}#heatmapTable .heat-empty{background:#f3f4f1;color:#a0aaa3;font-weight:500}
+    #anomalyBody tr td:nth-child(4){font-weight:800;color:#b45335}.report-copy strong{color:#174b39}
+    @media(prefers-reduced-motion:reduce){#heatmapTable td{transition:none}}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
+        <div class="container">
+
+            <div class="brand">
+                CARDAMOM <span>INTELLIGENCE</span>
+            </div>
+
+            <div class="nav-right">
+                <div class="text-light small nav-subtitle">Indian Large Cardamom Market</div>
+                <div class="nav-shortcuts" aria-label="Dashboard sections">
+                    <a href="#heatmapSection">Heatmap</a>
+                    <a href="#dailyReportSection">Daily brief</a>
+                    <a href="#forecastSection">Forecast</a>
+                    <a href="#alertsSection">Price alerts</a>
+                    <a href="#exportIntelSection">Export insights</a>
+                    <a href="#auctionExplorer">Auction data</a>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+        <div class="container">
+
+            <p class="text-uppercase small mb-2">
+                Market Intelligence Platform
+            </p>
+
+            <h1>Cardamom Market Dashboard</h1>
+
+            <div class="gold-line"></div>
+
+            <p class="mb-0 hero-copy">
+                Explore auction prices, market trends and historical data
+                from India's large cardamom markets.
+            </p>
+            <div class="hero-pills">
+                <span><i class="pulse-dot"></i> Live database insights</span>
+                <span>Price trends</span>
+                <span>Market intelligence</span>
+            </div>
+
+        </div>
+    </section>
+
+
+    <main class="container dashboard-section">
+
+        <!-- FILTER PANEL -->
+
+        <div class="section-card filter-panel">
+
+            <h5 class="section-title">Auction Data Filters</h5>
+
+            <p class="text-muted small">
+                Filter auction data by market, cardamom type and date range.
+            </p>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label for="marketFilter" class="form-label">
+                        Select Market
+                    </label>
+
+                    <select id="marketFilter" class="form-select">
+                        <option value="">All Markets</option>
+                        {% for market in markets %}
+                            <option value="{{ market }}">{{ market }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="typeFilter" class="form-label">
+                        Cardamom Type
+                    </label>
+
+                    <select id="typeFilter" class="form-select">
+                        <option value="">All Types</option>
+                        {% for type in cardamom_types %}
+                            <option value="{{ type }}">{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="startDate" class="form-label">
+                        Start Date
+                    </label>
+
+                    <input type="date" id="startDate" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <label for="endDate" class="form-label">
+                        End Date
+                    </label>
+
+                    <input type="date" id="endDate" class="form-control">
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end gap-2">
+                    <button type="button" id="applyFilters"
+                            class="btn btn-filter w-100">
+                        Apply
+                    </button>
+
+                    <button type="button" id="resetFilters"
+                            class="btn btn-outline-secondary">
+                        Reset
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="row g-3 mt-1">
+                <div class="col-md-3">
+                    <label for="minPriceFilter" class="form-label">Minimum price (₹/kg)</label>
+                    <input type="number" min="0" step="0.01" id="minPriceFilter" class="form-control" placeholder="e.g. 500">
+                </div>
+                <div class="col-md-3">
+                    <label for="maxPriceFilter" class="form-label">Maximum price (₹/kg)</label>
+                    <input type="number" min="0" step="0.01" id="maxPriceFilter" class="form-control" placeholder="e.g. 1500">
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                    <div class="small text-muted">Price limits apply to dashboard statistics, trends, market insights, records and downloads.</div>
+                </div>
+            </div>
+
+            <div class="quick-date-row mt-3">
+                <span class="quick-date-label">Quick date range:</span>
+                <button type="button" class="quick-date-btn" data-days="7">7 days</button>
+                <button type="button" class="quick-date-btn" data-days="30">30 days</button>
+                <button type="button" class="quick-date-btn" data-days="90">90 days</button>
+                <button type="button" class="quick-date-btn" data-days="all">All dates</button>
+            </div>
+
+            <div id="filterStatus" class="filter-status mt-3">
+                Loading auction data...
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD STATISTICS -->
+
+        <div class="row g-4 mt-1">
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-label">Total Records</div>
+                    <div class="stat-value" id="totalRecords">
+                        {{ total_records }}
+                    </div>
+                    <small class="text-muted">Auction price entries</small>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-label">Markets Covered</div>
+                    <div class="stat-value" id="marketCount">
+                        {{ market_count }}
+                    </div>
+                    <small class="text-muted">Unique auction markets</small>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-label">Latest Auction</div>
+                    <div class="stat-value" id="latestDate">
+                        {{ latest_date|date:"d M Y"|default:"N/A" }}
+                    </div>
+                    <small class="text-muted">Most recent available date</small>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-label">Average Price</div>
+                    <div class="stat-value" id="averagePrice">
+                        {% if average_price %}
+                            ₹{{ average_price|floatformat:2 }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </div>
+                    <small class="text-muted">Per kilogram</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- MARKET TAGS -->
+
+        <div class="section-card">
+
+            <h5 class="section-title">Auction Markets</h5>
+
+            <p class="text-muted small">
+                Available markets in the database
+            </p>
+
+            {% for market in markets %}
+                <span class="market-tag">{{ market }}</span>
+            {% empty %}
+                <p>No markets available.</p>
+            {% endfor %}
+
+        </div>
+
+
+        <!-- CARDAMOM CATEGORIES -->
+
+        <div class="section-card">
+
+            <h5 class="section-title">Cardamom Categories</h5>
+
+            <p class="text-muted small">
+                Available cardamom types
+            </p>
+
+            {% for type in cardamom_types %}
+                <span class="market-tag">{{ type }}</span>
+            {% empty %}
+                <p>No cardamom categories available.</p>
+            {% endfor %}
+
+        </div>
+
+
+        <!-- HISTORICAL PRICE CHART -->
+
+        <div class="section-card">
+
+            <h5 class="section-title">Historical Price Analysis</h5>
+
+            <p class="text-muted small">
+                Average auction price per kilogram across selected records
+            </p>
+
+            <div class="chart-container">
+                <canvas id="priceChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- MARKET COMPARISON CHART -->
+
+        <div class="section-card">
+
+            <h5 class="section-title">Market-wise Price Comparison</h5>
+
+            <p class="text-muted small">
+                Compare auction prices across selected markets
+            </p>
+
+            <div class="chart-container">
+                <canvas id="marketChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- DAILY WEEKLY MONTHLY PRICE ANALYSIS -->
+
+        <div class="section-card" id="periodAnalysisSection">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                    <h5 class="section-title mb-1">Daily, Weekly & Monthly Price Movement</h5>
+                    <p class="text-muted small mb-0">
+                        Explore how the average daily auction price changes over different time periods.
+                    </p>
+                </div>
+                <div class="period-selector-wrap">
+                    <label for="pricePeriod" class="form-label mb-1">Analysis period</label>
+                    <select id="pricePeriod" class="form-select">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <div class="comparison-stat">
+                        <div class="stat-label" id="periodLatestLabel">Latest daily average</div>
+                        <div class="comparison-stat-value" id="periodLatestPrice">—</div>
+                        <div class="comparison-stat-note" id="periodLatestDate">Waiting for data</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="comparison-stat">
+                        <div class="stat-label">Previous period average</div>
+                        <div class="comparison-stat-value" id="periodPreviousPrice">—</div>
+                        <div class="comparison-stat-note" id="periodPreviousDate">—</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="comparison-stat">
+                        <div class="stat-label">Change vs previous period</div>
+                        <div class="comparison-stat-value" id="periodChange">—</div>
+                        <div class="comparison-stat-note" id="periodChangePercent">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="periodPriceChart"></canvas>
+            </div>
+
+            <div class="explorer-info mt-2" id="periodAnalysisNote">
+                Daily values are based on the average auction price for each available auction date.
+            </div>
+
+        </div>
+
+
+        <!-- ADVANCED PRICE TREND & VOLATILITY ANALYSIS -->
+        <div class="section-card" id="advancedAnalyticsSection">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                    <h5 class="section-title mb-1">Advanced Trend & Volatility Analysis</h5>
+                    <p class="text-muted small mb-0">Moving averages, price range and volatility calculated from the selected daily market averages.</p>
+                </div>
+                <div style="min-width:170px;">
+                    <label for="movingAverageWindow" class="form-label">Moving average window</label>
+                    <select id="movingAverageWindow" class="form-select">
+                        <option value="3">3 available auction days</option>
+                        <option value="5">5 available auction days</option>
+                        <option value="7" selected>7 available auction days</option>
+                        <option value="14">14 available auction days</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-3"><div class="comparison-stat"><div class="stat-label">Highest daily average</div><div class="comparison-stat-value" id="volatilityHigh">—</div><div class="comparison-stat-note" id="volatilityHighDate">Selected period</div></div></div>
+                <div class="col-md-3"><div class="comparison-stat"><div class="stat-label">Lowest daily average</div><div class="comparison-stat-value" id="volatilityLow">—</div><div class="comparison-stat-note" id="volatilityLowDate">Selected period</div></div></div>
+                <div class="col-md-3"><div class="comparison-stat"><div class="stat-label">Price range</div><div class="comparison-stat-value" id="volatilityRange">—</div><div class="comparison-stat-note">Highest minus lowest</div></div></div>
+                <div class="col-md-3"><div class="comparison-stat"><div class="stat-label">Volatility (CV)</div><div class="comparison-stat-value" id="volatilityCv">—</div><div class="comparison-stat-note">Standard deviation ÷ average</div></div></div>
+            </div>
+            <div class="chart-container"><canvas id="movingAverageChart"></canvas></div>
+            <div class="explorer-info mt-2" id="advancedAnalyticsNote">Calculations use available daily average prices in the current filter selection. The moving average is based on auction dates with data, not calendar days.</div>
+        </div>
+
+
+        <!-- MARKET PERFORMANCE COMPARISON -->
+
+        <div class="section-card" id="marketPerformanceSection">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                    <h5 class="section-title mb-1">Market Performance Comparison</h5>
+                    <p class="text-muted small mb-0">
+                        Compare the latest available auction prices and recent movement across markets.
+                    </p>
+                </div>
+                <span class="badge rounded-pill px-3 py-2" style="background:#f4ead7;color:#80602e;">
+                    Independent market comparison
+                </span>
+            </div>
+
+            <div class="row g-3 align-items-end mb-3">
+                <div class="col-lg-8">
+                    <label for="comparisonMarkets" class="form-label">
+                        Choose markets to compare (select up to 6)
+                    </label>
+                    <select id="comparisonMarkets" class="form-select" multiple size="5"
+                            aria-describedby="comparisonHelp">
+                    </select>
+                    <div id="comparisonHelp" class="form-text">
+                        Hold Ctrl (Windows) or Cmd (Mac) to select more than one market.
+                        This comparison follows your selected cardamom type and date range, but is independent of the single-market dashboard filter.
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="comparison-note">
+                        <strong>How to read this:</strong>
+                        Each market uses its own latest available auction date. Change is measured against that market's previous available auction record.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <div class="comparison-stat">
+                        <div class="stat-label">Highest latest average</div>
+                        <div class="comparison-stat-value" id="comparisonHighest">—</div>
+                        <div class="comparison-stat-note" id="comparisonHighestNote">Select markets to compare</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="comparison-stat">
+                        <div class="stat-label">Lowest latest average</div>
+                        <div class="comparison-stat-value" id="comparisonLowest">—</div>
+                        <div class="comparison-stat-note" id="comparisonLowestNote">Select markets to compare</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="comparison-stat">
+                        <div class="stat-label">Price spread</div>
+                        <div class="comparison-stat-value" id="comparisonSpread">—</div>
+                        <div class="comparison-stat-note">Difference between highest and lowest</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container mb-3">
+                <canvas id="marketPerformanceChart"></canvas>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Market</th>
+                            <th>Latest auction date</th>
+                            <th>Latest average (₹/kg)</th>
+                            <th>Previous average (₹/kg)</th>
+                            <th>Movement</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marketPerformanceBody">
+                        <tr>
+                            <td colspan="5" class="text-center py-4">Loading market comparison...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="explorer-info mt-2" id="marketComparisonStatus">
+                Preparing market comparison...
+            </div>
+
+        </div>
+
+
+        <!-- MARKET INTELLIGENCE -->
+
+        <div class="section-card">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+
+                <div>
+                    <h5 class="section-title mb-1">
+                        Market Intelligence & Price Insights
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        Latest auction movements and market performance
+                    </p>
+                </div>
+
+                <div class="insight-date" id="insightDate">
+                    Analysing latest auction data...
+                </div>
+
+            </div>
+
+
+            <!-- PRICE MOVEMENT CARDS -->
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <div class="insight-card">
+                        <div class="insight-label">
+                            Latest Average Price
+                        </div>
+
+                        <div class="insight-value" id="latestAverage">
+                            Loading...
+                        </div>
+
+                        <div class="insight-subtitle">
+                            Latest auction date
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="insight-card">
+                        <div class="insight-label">
+                            Previous Average
+                        </div>
+
+                        <div class="insight-value" id="previousAverage">
+                            Loading...
+                        </div>
+
+                        <div class="insight-subtitle" id="previousDate">
+                            Previous auction date
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="insight-card">
+                        <div class="insight-label">
+                            Price Difference
+                        </div>
+
+                        <div class="insight-value" id="priceDifference">
+                            Loading...
+                        </div>
+
+                        <div class="insight-subtitle">
+                            Latest vs previous auction
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="insight-card">
+                        <div class="insight-label">
+                            Price Movement
+                        </div>
+
+                        <div class="insight-value" id="priceMovement">
+                            Loading...
+                        </div>
+
+                        <div class="insight-subtitle">
+                            Percentage change
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- HIGHEST AND LOWEST MARKETS -->
+
+            <div class="row g-3 mt-1">
+
+                <div class="col-md-6">
+
+                    <div class="insight-card">
+
+                        <div class="insight-label">
+                            Highest Average Price Market
+                        </div>
+
+                        <div class="insight-value" id="highestMarket">
+                            Loading...
+                        </div>
+
+                        <div class="insight-subtitle" id="highestMarketPrice">
+                            Latest auction date
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="insight-card">
+
+                        <div class="insight-label">
+                            Lowest Average Price Market
+                        </div>
+
+                        <div class="insight-value" id="lowestMarket">
+                            Loading...
+                        </div>
+
+                        <div class="insight-subtitle" id="lowestMarketPrice">
+                            Latest auction date
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MARKET RANKING -->
+
+        <div class="section-card">
+
+            <h5 class="section-title">Market Price Ranking</h5>
+
+            <p class="text-muted small">
+                Markets ranked by average price on the latest available auction date
+            </p>
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Market</th>
+                            <th>Average Price (₹/kg)</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="marketRankingBody">
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                Loading market ranking...
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARDAMOM TYPE COMPARISON -->
+
+        <div class="section-card">
+
+            <h5 class="section-title">
+                Cardamom Type Price Comparison
+            </h5>
+
+            <p class="text-muted small">
+                Latest average auction price by cardamom type
+            </p>
+
+            <div class="chart-container">
+                <canvas id="typeComparisonChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- CARDAMOM TYPE HISTORICAL TREND -->
+
+        <div class="section-card">
+
+            <h5 class="section-title">
+                Cardamom Type Historical Trends
+            </h5>
+
+            <p class="text-muted small">
+                Historical average price movement for each cardamom type
+            </p>
+
+            <div class="chart-container">
+                <canvas id="typeHistoryChart"></canvas>
+            </div>
+
+        </div>
+
+
+
+        <!-- PRICE FORECASTING -->
+        <div class="section-card" id="forecastSection">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                <div><h5 class="section-title mb-1">Cardamom Price Forecast</h5><p class="text-muted small mb-0">A transparent trend-based baseline forecast from historical daily averages. Forecasts are estimates, not guaranteed prices.</p></div>
+                <div style="min-width:170px"><label class="form-label" for="forecastHorizon">Forecast horizon</label><select class="form-select" id="forecastHorizon"><option value="7">Next 7 days</option><option value="15">Next 15 days</option><option value="30">Next 30 days</option></select></div>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Forecast average</div><div class="comparison-stat-value" id="forecastAverage">—</div><div class="comparison-stat-note" id="forecastRangeLabel">Selected horizon</div></div></div>
+                <div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Trend direction</div><div class="comparison-stat-value" id="forecastDirection">—</div><div class="comparison-stat-note">Based on fitted historical trend</div></div></div>
+                <div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Back-test error (MAPE)</div><div class="comparison-stat-value" id="forecastAccuracy">—</div><div class="comparison-stat-note">Holdout test; lower is better</div></div></div>
+            </div>
+            <div class="chart-container"><canvas id="forecastChart"></canvas></div>
+            <div class="explorer-info mt-2" id="forecastNote">Forecast will appear when sufficient historical auction dates are available.</div>
+        </div>
+
+
+        <!-- MARKET HEATMAP -->
+        <div class="section-card" id="heatmapSection">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2"><div><h5 class="section-title mb-1">Market Price Heatmap</h5><p class="text-muted small mb-0">Daily average prices by market. Colour intensity indicates relative price within the selected view.</p></div><span class="badge rounded-pill text-bg-success">Interactive market view</span></div>
+            <div class="table-responsive"><table class="table align-middle text-center" id="heatmapTable"><tbody><tr><td>Loading market heatmap…</td></tr></tbody></table></div>
+            <div class="explorer-info">Each cell shows the average auction price for that market and date. Missing cells mean no matching auction records.</div>
+        </div>
+
+        <!-- DAILY MARKET REPORT -->
+        <div class="section-card" id="dailyReportSection">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"><div><h5 class="section-title mb-1">Daily Market Brief</h5><p class="text-muted small mb-0">Automatically generated commentary based on the currently filtered auction data.</p></div><button class="btn btn-export" type="button" id="refreshDailyReport">Refresh report</button></div>
+            <div class="row g-3 mb-3"><div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Market direction</div><div class="comparison-stat-value" id="reportDirection">—</div><div class="comparison-stat-note" id="reportDate">Latest auction date</div></div></div><div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Daily average movement</div><div class="comparison-stat-value" id="reportMovement">—</div><div class="comparison-stat-note">Compared with previous available date</div></div></div><div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Markets covered</div><div class="comparison-stat-value" id="reportMarketCount">—</div><div class="comparison-stat-note">In current filters</div></div></div></div>
+            <div class="report-copy" id="dailyReportText" aria-live="polite">Preparing the latest market brief…</div>
+            <div class="explorer-info mt-2">This is a data-driven automated summary, not an external generative-AI opinion or a guarantee of future prices.</div>
+        </div>
+
+        <!-- PRICE ANOMALIES AND MARKET SPREAD -->
+        <div class="row g-3">
+            <div class="col-lg-6"><div class="section-card h-100" id="anomalySection"><h5 class="section-title">Unusual Price Movements</h5><p class="text-muted small">Flags daily market averages that differ materially from that market’s recent history.</p><div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Market</th><th>Date</th><th>Average</th><th>Change vs recent mean</th></tr></thead><tbody id="anomalyBody"><tr><td colspan="4" class="text-center">Scanning auction history…</td></tr></tbody></table></div><div class="explorer-info">Rule: deviation of at least 2 standard deviations from up to seven preceding available auction dates. Statistical flags require human review.</div></div></div>
+            <div class="col-lg-6"><div class="section-card h-100" id="spreadSection"><h5 class="section-title">Market Price Spread</h5><p class="text-muted small">Difference between the highest and lowest market averages on each auction date.</p><div class="chart-container"><canvas id="marketSpreadChart"></canvas></div><div class="explorer-info" id="spreadSummary">Calculating market spread…</div></div></div>
+        </div>
+
+        <!-- FARMER PROFIT CALCULATOR -->
+        <div class="section-card" id="profitCalculatorSection">
+            <h5 class="section-title">Farmer & Trader Profit Calculator</h5><p class="text-muted small">Estimate net proceeds from a sale after entering your own costs. This is a calculator, not a guaranteed market quote.</p>
+            <div class="row g-3 align-items-end"><div class="col-md-3"><label class="form-label" for="profitQuantity">Quantity (kg)</label><input class="form-control" type="number" min="0" step="0.01" id="profitQuantity" value="100"></div><div class="col-md-3"><label class="form-label" for="profitPrice">Selling price (₹/kg)</label><input class="form-control" type="number" min="0" step="0.01" id="profitPrice" placeholder="Enter price"></div><div class="col-md-2"><label class="form-label" for="profitTransport">Transport (₹)</label><input class="form-control" type="number" min="0" step="0.01" id="profitTransport" value="0"></div><div class="col-md-2"><label class="form-label" for="profitCommission">Commission (%)</label><input class="form-control" type="number" min="0" max="100" step="0.01" id="profitCommission" value="0"></div><div class="col-md-2"><label class="form-label" for="profitOther">Other costs (₹)</label><input class="form-control" type="number" min="0" step="0.01" id="profitOther" value="0"></div></div>
+            <div class="row g-3 mt-2"><div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Gross sale value</div><div class="comparison-stat-value" id="profitGross">₹0.00</div></div></div><div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Total costs</div><div class="comparison-stat-value" id="profitCosts">₹0.00</div></div></div><div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Estimated net proceeds</div><div class="comparison-stat-value text-success" id="profitNet">₹0.00</div></div></div></div>
+            <div class="explorer-info mt-2" id="profitPerKg">Enter your sale price and costs to calculate estimated proceeds.</div>
+        </div>
+
+        <!-- PRICE ALERTS -->
+        <div class="section-card" id="alertsSection">
+            <h5 class="section-title">Price Watch & Alerts</h5>
+            <p class="text-muted small">Set a browser-based threshold for the currently selected market/type filters. Alerts are checked when dashboard data refreshes and are stored in this browser only.</p>
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3"><label class="form-label" for="alertCondition">Alert when price</label><select class="form-select" id="alertCondition"><option value="above">rises above</option><option value="below">falls below</option></select></div>
+                <div class="col-md-3"><label class="form-label" for="alertPrice">Threshold (₹/kg)</label><input class="form-control" id="alertPrice" type="number" min="0" step="0.01" placeholder="Enter price"></div>
+                <div class="col-md-2"><button class="btn btn-filter w-100" type="button" id="savePriceAlert">Save alert</button></div>
+                <div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Latest filtered average</div><div class="comparison-stat-value" id="alertCurrentPrice">—</div><div class="comparison-stat-note" id="alertStatus">No alert configured</div></div></div>
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-3"><button class="btn btn-outline-secondary btn-sm" id="clearPriceAlert" type="button">Remove alert</button><span class="explorer-info" id="alertMessage" aria-live="polite"></span></div>
+        </div>
+
+        <!-- EXPORT MARKET INTELLIGENCE -->
+        <div class="section-card" id="exportIntelSection">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"><div><h5 class="section-title mb-1">Export Market Intelligence</h5><p class="text-muted small mb-0">Domestic auction-derived indicators to help shortlist sourcing markets. This is not international import demand or a verified buyer directory.</p></div><button type="button" class="btn btn-export" id="downloadExportIntel">Download market shortlist CSV</button></div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Highest current market average</div><div class="comparison-stat-value" id="exportTopMarket">—</div><div class="comparison-stat-note" id="exportTopPrice">Latest available auction date</div></div></div>
+                <div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Lowest current market average</div><div class="comparison-stat-value" id="exportLowMarket">—</div><div class="comparison-stat-note" id="exportLowPrice">Latest available auction date</div></div></div>
+                <div class="col-md-4"><div class="comparison-stat"><div class="stat-label">Markets analysed</div><div class="comparison-stat-value" id="exportMarketCount">—</div><div class="comparison-stat-note">Based on current filters</div></div></div>
+            </div>
+            <div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Market</th><th>Latest auction date</th><th>Average price (₹/kg)</th><th>Previous average</th><th>Movement</th><th>Price variability</th></tr></thead><tbody id="exportIntelBody"><tr><td colspan="6" class="text-center">Preparing market shortlist...</td></tr></tbody></table></div>
+            <div class="explorer-info mt-2">For actual export decisions, supplement these domestic auction signals with official destination-country import statistics, tariff rules and independently verified importer records.</div>
+        </div>
+
+        <!-- AUCTION DATA EXPLORER -->
+
+        <div class="section-card table-card" id="auctionExplorer">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+
+                <div>
+                    <h5 class="section-title mb-1">
+                        Auction Data Explorer
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        Search, explore, sort and download historical auction records.
+                    </p>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    <button type="button" id="exportCSV"
+                            class="btn btn-export">
+                        Download CSV
+                    </button>
+
+                    <button type="button" id="exportExcel"
+                            class="btn btn-export">
+                        Download Excel
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SEARCH -->
+
+            <div class="row g-3 mb-3">
+
+                <div class="col-md-6">
+
+                    <label for="recordSearch" class="form-label">
+                        Search Auction Records
+                    </label>
+
+                    <input type="text"
+                           id="recordSearch"
+                           class="form-control"
+                           placeholder="Search by market or cardamom type...">
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label for="recordsPerPage" class="form-label">
+                        Records Per Page
+                    </label>
+
+                    <select id="recordsPerPage" class="form-select">
+                        <option value="10">10 Records</option>
+                        <option value="25">25 Records</option>
+                        <option value="50">50 Records</option>
+                        <option value="100">100 Records</option>
+                    </select>
+
+                </div>
+
+                <div class="col-md-3 d-flex align-items-end">
+
+                    <button type="button"
+                            id="refreshRecords"
+                            class="btn btn-filter w-100">
+                        Refresh Records
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="explorer-info mb-2" id="recordsStatus">
+                Loading auction records...
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover mb-0">
+
+                    <thead>
+                        <tr>
+                            <th class="sortable-heading" data-sort="auction_date">
+                                Auction Date ↕
+                            </th>
+
+                            <th class="sortable-heading" data-sort="market">
+                                Market ↕
+                            </th>
+
+                            <th class="sortable-heading" data-sort="cardamom_type">
+                                Cardamom Type ↕
+                            </th>
+
+                            <th class="sortable-heading" data-sort="price_per_kg">
+                                Price per Kg (₹) ↕
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="auctionRecordsBody">
+                        <tr>
+                            <td colspan="4" class="text-center py-4">
+                                Loading records...
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- PAGINATION -->
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 gap-2">
+
+                <div id="paginationInfo" class="explorer-info">
+                    Page 1
+                </div>
+
+                <nav aria-label="Auction records pagination">
+
+                    <ul class="pagination mb-0">
+
+                        <li class="page-item" id="previousPageItem">
+                            <button class="page-link"
+                                    id="previousPage"
+                                    type="button">
+                                Previous
+                            </button>
+                        </li>
+
+                        <li class="page-item" id="nextPageItem">
+                            <button class="page-link"
+                                    id="nextPage"
+                                    type="button">
+                                Next
+                            </button>
+                        </li>
+
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+        <div class="container text-center">
+            Cardamom Market Intelligence |
+            Indian Large Cardamom Auction Data
+        </div>
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // =====================================
+        // CHART VARIABLES
+        // =====================================
+
+        let priceChart = null;
+        let marketChart = null;
+        let typeComparisonChart = null;
+        let typeHistoryChart = null;
+        let periodPriceChart = null;
+        let movingAverageChart = null;
+        let dailyPriceSeries = [];
+        let marketPerformanceChart = null;
+        let comparisonMarketData = {};
+        let comparisonMarketsInitialized = false;
+
+
+        // =====================================
+        // CLEAN, CONSISTENT CHART PRESENTATION
+        // =====================================
+
+        Chart.defaults.font.family = "Inter, Segoe UI, Arial, sans-serif";
+        Chart.defaults.font.size = 11;
+        Chart.defaults.color = "#66756b";
+        Chart.defaults.animation.duration = 350;
+        Chart.defaults.interaction.intersect = false;
+        Chart.defaults.interaction.mode = "index";
+        Chart.defaults.elements.line.borderWidth = 2;
+        Chart.defaults.elements.line.tension = 0.25;
+        Chart.defaults.elements.point.radius = 0;
+        Chart.defaults.elements.point.hoverRadius = 5;
+        Chart.defaults.elements.point.hitRadius = 9;
+        Chart.defaults.elements.bar.borderRadius = 6;
+        Chart.defaults.plugins.legend.labels.usePointStyle = true;
+        Chart.defaults.plugins.legend.labels.boxWidth = 8;
+        Chart.defaults.plugins.legend.labels.boxHeight = 8;
+        Chart.defaults.plugins.legend.labels.padding = 16;
+        Chart.defaults.plugins.tooltip.backgroundColor = "rgba(24, 43, 33, 0.96)";
+        Chart.defaults.plugins.tooltip.padding = 11;
+        Chart.defaults.plugins.tooltip.cornerRadius = 8;
+        Chart.defaults.plugins.tooltip.titleFont = { size: 12, weight: "600" };
+        Chart.defaults.plugins.tooltip.bodyFont = { size: 12 };
+        // Scale defaults differ between Chart.js versions. Guard optional
+        // scale objects so a missing grid/ticks object cannot stop the dashboard.
+        const categoryScaleDefaults = Chart.defaults.scales.category;
+        if (categoryScaleDefaults && categoryScaleDefaults.ticks) {
+            categoryScaleDefaults.ticks.autoSkip = true;
+            categoryScaleDefaults.ticks.maxTicksLimit = 8;
+            categoryScaleDefaults.ticks.maxRotation = 0;
+            categoryScaleDefaults.ticks.minRotation = 0;
+        }
+        if (categoryScaleDefaults && categoryScaleDefaults.grid) {
+            categoryScaleDefaults.grid.display = false;
+        }
+
+        const linearScaleDefaults = Chart.defaults.scales.linear;
+        if (linearScaleDefaults && linearScaleDefaults.grid) {
+            linearScaleDefaults.grid.color = "rgba(87, 105, 91, 0.10)";
+        }
+        if (linearScaleDefaults && linearScaleDefaults.ticks) {
+            linearScaleDefaults.ticks.padding = 8;
+        }
+
+
+        // =====================================
+        // AUCTION EXPLORER VARIABLES
+        // =====================================
+
+        let currentPage = 1;
+        let currentSort = "auction_date";
+        let currentOrder = "desc";
+        let totalPages = 1;
+
+
+        // =====================================
+        // COMMON FILTER PARAMETERS
+        // =====================================
+
+        function getFilterParameters() {
+
+            const params = new URLSearchParams();
+
+            const market = document.getElementById("marketFilter").value;
+            const type = document.getElementById("typeFilter").value;
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+            const minPrice = document.getElementById("minPriceFilter").value;
+            const maxPrice = document.getElementById("maxPriceFilter").value;
+
+            if (market) params.append("market", market);
+            if (type) params.append("cardamom_type", type);
+            if (startDate) params.append("start_date", startDate);
+            if (endDate) params.append("end_date", endDate);
+            if (minPrice !== "") params.append("min_price", minPrice);
+            if (maxPrice !== "") params.append("max_price", maxPrice);
+
+            return params;
+        }
+
+
+        // =====================================
+        // LOAD ALL DASHBOARD INFORMATION
+        // =====================================
+
+        async function loadDashboardData() {
+
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+
+            const status = document.getElementById("filterStatus");
+            const minPrice = document.getElementById("minPriceFilter").value;
+            const maxPrice = document.getElementById("maxPriceFilter").value;
+
+            if (startDate && endDate && startDate > endDate) {
+
+                status.textContent =
+                    "Error: Start date cannot be after end date.";
+
+                return;
+            }
+
+            if (minPrice !== "" && maxPrice !== "" && Number(minPrice) > Number(maxPrice)) {
+                status.textContent = "Error: Minimum price cannot be greater than maximum price.";
+                return;
+            }
+
+            if ((minPrice !== "" && Number(minPrice) < 0) || (maxPrice !== "" && Number(maxPrice) < 0)) {
+                status.textContent = "Error: Price filters cannot be negative.";
+                return;
+            }
+
+            status.textContent = "Loading filtered auction data...";
+
+            document.getElementById("applyFilters").disabled = true;
+
+            try {
+
+                const response = await fetch(
+                    "/api/auction-data/?" + getFilterParameters().toString()
+                );
+
+                if (!response.ok) {
+                    throw new Error("Unable to retrieve dashboard data.");
+                }
+
+                const data = await response.json();
+
+                updateStatistics(data);
+                dailyPriceSeries = Array.isArray(data.chart_data) ? data.chart_data : [];
+                updatePriceChart(data.chart_data);
+                updateMarketChart(data.market_chart_data);
+                updatePeriodPriceAnalysis();
+                updateAdvancedAnalytics();
+                checkBrowserPriceAlert(data.average_price);
+                await loadForecastAndExportIntelligence();
+                await loadNewIntelligenceModules();
+
+                await Promise.all([
+                    loadMarketInsights(),
+                    loadAuctionRecords(),
+                    loadMarketComparison()
+                ]);
+
+                status.textContent =
+                    "Showing " + data.total_records +
+                    " matching auction records.";
+
+            } catch (error) {
+
+                console.error(error);
+
+                status.textContent =
+                    "Unable to load dashboard data. Please check the server.";
+
+            } finally {
+
+                document.getElementById("applyFilters").disabled = false;
+
+            }
+        }
+
+
+        // =====================================
+        // UPDATE DASHBOARD STATISTICS
+        // =====================================
+
+        function updateStatistics(data) {
+
+            document.getElementById("totalRecords").textContent =
+                Number(data.total_records).toLocaleString("en-IN");
+
+            document.getElementById("marketCount").textContent =
+                data.market_count;
+
+            document.getElementById("latestDate").textContent =
+                data.latest_date;
+
+            document.getElementById("averagePrice").textContent =
+                data.average_price !== null
+                    ? "₹" + Number(data.average_price).toLocaleString(
+                        "en-IN",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    )
+                    : "N/A";
+        }
+
+
+        // =====================================
+        // PRICE FORMATTING
+        // =====================================
+
+        function formatPrice(value) {
+
+            if (value === null || value === undefined) {
+                return "N/A";
+            }
+
+            return "₹" + Number(value).toLocaleString(
+                "en-IN",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+        }
+
+
+        // =====================================
+        // HISTORICAL PRICE CHART
+        // =====================================
+
+        function updatePriceChart(chartData) {
+
+            const labels = chartData.map(item => item.date);
+            const prices = chartData.map(item => item.price);
+
+            if (priceChart) {
+
+                priceChart.data.labels = labels;
+                priceChart.data.datasets[0].data = prices;
+                priceChart.update();
+
+                return;
+            }
+
+            priceChart = new Chart(
+                document.getElementById("priceChart"),
+                {
+                    type: "line",
+
+                    data: {
+                        labels: labels,
+
+                        datasets: [{
+                            label: "Average Price (₹/kg)",
+                            data: prices,
+                            borderColor: "#1c6845",
+                            backgroundColor: "rgba(28,104,69,0.12)",
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 0,
+                            pointHoverRadius: 5
+                        }]
+                    },
+
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        interaction: {
+                            intersect: false,
+                            mode: "index"
+                        },
+
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: "Price (₹ per kg)"
+                                }
+                            },
+
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: "Auction Date"
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+
+        // =====================================
+        // MARKET COMPARISON CHART
+        // =====================================
+
+        function updateMarketChart(marketData) {
+
+            const allDates = [
+                ...new Set(
+                    Object.values(marketData)
+                        .flat()
+                        .map(item => item.date)
+                )
+            ];
+
+            const colors = [
+                "#1c6845",
+                "#c9a45c",
+                "#315b83",
+                "#a35d42",
+                "#8064a2"
+            ];
+
+            const datasets = Object.entries(marketData).map(
+                ([market, records], index) => {
+
+                    const priceByDate = {};
+
+                    records.forEach(item => {
+                        priceByDate[item.date] = item.price;
+                    });
+
+                    return {
+                        label: market,
+
+                        data: allDates.map(date =>
+                            priceByDate[date] ?? null
+                        ),
+
+                        borderColor: colors[index % colors.length],
+                        backgroundColor: colors[index % colors.length],
+                        borderWidth: 3,
+                        tension: 0.3,
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+                        spanGaps: false
+                    };
+                }
+            );
+
+            if (marketChart) {
+
+                marketChart.data.labels = allDates;
+                marketChart.data.datasets = datasets;
+                marketChart.update();
+
+                return;
+            }
+
+            marketChart = new Chart(
+                document.getElementById("marketChart"),
+                {
+                    type: "line",
+
+                    data: {
+                        labels: allDates,
+                        datasets: datasets
+                    },
+
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        interaction: {
+                            intersect: false,
+                            mode: "index"
+                        },
+
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: "Average Price (₹/kg)"
+                                }
+                            },
+
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: "Auction Date"
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+
+        // =====================================
+        // DAILY / WEEKLY / MONTHLY PRICE ANALYSIS
+        // =====================================
+
+        function parseAuctionDate(dateText) {
+            const parts = String(dateText).trim().split(/\s+/);
+            if (parts.length !== 3) return null;
+
+            const months = {
+                Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+                Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+            };
+
+            const day = Number(parts[0]);
+            const month = months[parts[1]];
+            const year = Number(parts[2]);
+
+            if (!Number.isInteger(day) || month === undefined || !Number.isInteger(year)) {
+                return null;
+            }
+
+            const date = new Date(year, month, day);
+            return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+
+        function getPeriodKey(date, period) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+
+            if (period === "monthly") {
+                return `${year}-${String(month + 1).padStart(2, "0")}`;
+            }
+
+            if (period === "weekly") {
+                const monday = new Date(year, month, date.getDate());
+                const dayOfWeek = (monday.getDay() + 6) % 7;
+                monday.setDate(monday.getDate() - dayOfWeek);
+                return `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, "0")}-${String(monday.getDate()).padStart(2, "0")}`;
+            }
+
+            return `${year}-${String(month + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+        }
+
+
+        function formatPeriodLabel(key, period) {
+            const parts = key.split("-").map(Number);
+            const date = new Date(parts[0], parts[1] - 1, parts[2] || 1);
+
+            if (period === "monthly") {
+                return date.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+            }
+
+            if (period === "weekly") {
+                return `Week of ${date.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}`;
+            }
+
+            return date.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+        }
+
+
+        function buildPeriodSeries(period) {
+            const buckets = new Map();
+
+            dailyPriceSeries.forEach(item => {
+                const date = parseAuctionDate(item.date);
+                const price = Number(item.price);
+
+                if (!date || !Number.isFinite(price)) return;
+
+                const key = getPeriodKey(date, period);
+
+                const observations = Math.max(1, Number(item.records_count) || 1);
+                if (!buckets.has(key)) {
+                    buckets.set(key, { weightedTotal: 0, recordCount: 0, count: 0 });
+                }
+
+                const bucket = buckets.get(key);
+                bucket.weightedTotal += price * observations;
+                bucket.recordCount += observations;
+                bucket.count += 1;
+            });
+
+            return Array.from(buckets.entries())
+                .sort((a, b) => a[0].localeCompare(b[0]))
+                .map(([key, bucket]) => ({
+                    key,
+                    label: formatPeriodLabel(key, period),
+                    price: bucket.weightedTotal / bucket.recordCount,
+                    dailyObservations: bucket.count,
+                    auctionRecords: bucket.recordCount
+                }));
+        }
+
+
+        function updatePeriodPriceAnalysis() {
+            const period = document.getElementById("pricePeriod").value;
+            const series = buildPeriodSeries(period);
+
+            const periodNames = {
+                daily: "daily",
+                weekly: "weekly",
+                monthly: "monthly"
+            };
+
+            document.getElementById("periodLatestLabel").textContent =
+                `Latest ${periodNames[period]} average`;
+
+            if (!series.length) {
+                ["periodLatestPrice", "periodPreviousPrice", "periodChange",
+                 "periodLatestDate", "periodPreviousDate", "periodChangePercent"]
+                    .forEach(id => {
+                        document.getElementById(id).textContent = "No data available";
+                    });
+
+                renderPeriodPriceChart([], []);
+                document.getElementById("periodAnalysisNote").textContent =
+                    "No auction price data is available for the selected filters.";
+                return;
+            }
+
+            const latest = series[series.length - 1];
+            const previous = series.length > 1 ? series[series.length - 2] : null;
+
+            document.getElementById("periodLatestPrice").textContent =
+                formatPrice(latest.price);
+            document.getElementById("periodLatestDate").textContent = latest.label;
+
+            if (previous) {
+                const change = latest.price - previous.price;
+                const percent = previous.price !== 0
+                    ? (change / previous.price) * 100
+                    : null;
+
+                const changeElement = document.getElementById("periodChange");
+                changeElement.textContent =
+                    `${change > 0 ? "+" : change < 0 ? "−" : ""}${formatPrice(Math.abs(change))}`;
+                changeElement.className =
+                    "comparison-stat-value " +
+                    (change > 0 ? "positive" : change < 0 ? "negative" : "neutral");
+
+                document.getElementById("periodPreviousPrice").textContent =
+                    formatPrice(previous.price);
+                document.getElementById("periodPreviousDate").textContent =
+                    previous.label;
+                document.getElementById("periodChangePercent").textContent =
+                    percent === null ? "Percentage change unavailable" :
+                    `${percent > 0 ? "▲ " : percent < 0 ? "▼ " : ""}${Math.abs(percent).toFixed(2)}% vs previous period`;
+            } else {
+                document.getElementById("periodPreviousPrice").textContent = "N/A";
+                document.getElementById("periodPreviousDate").textContent = "No earlier period";
+                document.getElementById("periodChange").textContent = "N/A";
+                document.getElementById("periodChange").className = "comparison-stat-value neutral";
+                document.getElementById("periodChangePercent").textContent =
+                    "At least two periods are needed to calculate movement";
+            }
+
+            renderPeriodPriceChart(
+                series.map(item => item.label),
+                series.map(item => Number(item.price))
+            );
+
+            const description = period === "weekly"
+                ? "Weekly values are weighted by the number of auction records on each available date and grouped Monday to Sunday."
+                : period === "monthly"
+                    ? "Monthly values are weighted by the number of auction records on each available date and grouped by calendar month."
+                    : "Daily values are based on the average auction price for each available auction date.";
+
+            document.getElementById("periodAnalysisNote").textContent =
+                `${description} Only dates returned by your current dashboard filters are included.`;
+        }
+
+
+        function renderPeriodPriceChart(labels, values) {
+            const chartData = {
+                labels,
+                datasets: [{
+                    label: "Average auction price (₹/kg)",
+                    data: values,
+                    borderColor: "#294b3b",
+                    backgroundColor: "rgba(41,75,59,.12)",
+                    borderWidth: 3,
+                    fill: true,
+                    tension: .32,
+                    pointRadius: 0,
+                    pointHoverRadius: 5
+                }]
+            };
+
+            if (periodPriceChart) {
+                periodPriceChart.data = chartData;
+                periodPriceChart.update();
+                return;
+            }
+
+            periodPriceChart = new Chart(
+                document.getElementById("periodPriceChart"),
+                {
+                    type: "line",
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { intersect: false, mode: "index" },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: context => " " + formatPrice(context.raw) + " per kg"
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: { display: true, text: "Average price (₹/kg)" },
+                                grid: { color: "rgba(90,105,91,.09)" }
+                            },
+                            x: {
+                                title: { display: true, text: "Auction period" },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+
+        document.getElementById("pricePeriod")
+            .addEventListener("change", updatePeriodPriceAnalysis);
+
+
+        // =====================================
+        // ADVANCED TREND & VOLATILITY ANALYSIS
+        // =====================================
+
+        function updateAdvancedAnalytics() {
+            const values = dailyPriceSeries
+                .map(item => ({ date: item.date, price: Number(item.price) }))
+                .filter(item => Number.isFinite(item.price));
+
+            if (!values.length) {
+                ["volatilityHigh", "volatilityLow", "volatilityRange", "volatilityCv"]
+                    .forEach(id => document.getElementById(id).textContent = "N/A");
+                document.getElementById("volatilityHighDate").textContent = "No data";
+                document.getElementById("volatilityLowDate").textContent = "No data";
+                renderMovingAverageChart([], [], [], Number(document.getElementById("movingAverageWindow").value));
+                return;
+            }
+
+            const high = values.reduce((a, b) => b.price > a.price ? b : a);
+            const low = values.reduce((a, b) => b.price < a.price ? b : a);
+            const mean = values.reduce((sum, item) => sum + item.price, 0) / values.length;
+            const variance = values.reduce((sum, item) => sum + Math.pow(item.price - mean, 2), 0) / values.length;
+            const standardDeviation = Math.sqrt(variance);
+            const coefficient = mean !== 0 ? (standardDeviation / mean) * 100 : null;
+
+            document.getElementById("volatilityHigh").textContent = formatPrice(high.price);
+            document.getElementById("volatilityHighDate").textContent = high.date;
+            document.getElementById("volatilityLow").textContent = formatPrice(low.price);
+            document.getElementById("volatilityLowDate").textContent = low.date;
+            document.getElementById("volatilityRange").textContent = formatPrice(high.price - low.price);
+            document.getElementById("volatilityCv").textContent = coefficient === null ? "N/A" : coefficient.toFixed(2) + "%";
+
+            const windowSize = Number(document.getElementById("movingAverageWindow").value) || 7;
+            const movingAverage = values.map((item, index) => {
+                if (index + 1 < windowSize) return null;
+                const slice = values.slice(index - windowSize + 1, index + 1);
+                return slice.reduce((sum, point) => sum + point.price, 0) / windowSize;
+            });
+
+            renderMovingAverageChart(
+                values.map(item => item.date),
+                values.map(item => item.price),
+                movingAverage,
+                windowSize
+            );
+
+            document.getElementById("advancedAnalyticsNote").textContent =
+                `Volatility is the population coefficient of variation across ${values.length} available auction dates. The ${windowSize}-observation moving average uses the latest ${windowSize} available auction dates and is not a forecast.`;
+        }
+
+
+        function renderMovingAverageChart(labels, actualValues, movingAverage, windowSize) {
+            const data = {
+                labels,
+                datasets: [
+                    {
+                        label: "Daily average price (₹/kg)",
+                        data: actualValues,
+                        borderColor: "#c39a4a",
+                        backgroundColor: "rgba(195,154,74,.10)",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: .25
+                    },
+                    {
+                        label: `${windowSize}-observation moving average`,
+                        data: movingAverage,
+                        borderColor: "#24533d",
+                        backgroundColor: "rgba(36,83,61,.08)",
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        tension: .25,
+                        spanGaps: false
+                    }
+                ]
+            };
+
+            if (movingAverageChart) {
+                movingAverageChart.data = data;
+                movingAverageChart.update();
+                return;
+            }
+
+            movingAverageChart = new Chart(document.getElementById("movingAverageChart"), {
+                type: "line",
+                data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: "index" },
+                    plugins: {
+                        legend: { position: "top" },
+                        tooltip: { callbacks: { label: context => ` ${context.dataset.label}: ${formatPrice(context.raw)}` } }
+                    },
+                    scales: {
+                        y: { beginAtZero: false, title: { display: true, text: "Price (₹/kg)" } },
+                        x: { title: { display: true, text: "Auction date" }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        document.getElementById("movingAverageWindow")
+            .addEventListener("change", updateAdvancedAnalytics);
+
+
+        // =====================================
+        // MARKET PERFORMANCE COMPARISON
+        // =====================================
+
+        async function loadMarketComparison() {
+            const params = new URLSearchParams();
+            const selectedType = document.getElementById("typeFilter").value;
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+            const minPrice = document.getElementById("minPriceFilter").value;
+            const maxPrice = document.getElementById("maxPriceFilter").value;
+
+            // Intentionally omit the dashboard's single-market filter.
+            if (selectedType) params.append("cardamom_type", selectedType);
+            if (startDate) params.append("start_date", startDate);
+            if (endDate) params.append("end_date", endDate);
+            if (minPrice !== "") params.append("min_price", minPrice);
+            if (maxPrice !== "") params.append("max_price", maxPrice);
+
+            const status = document.getElementById("marketComparisonStatus");
+            status.textContent = "Loading market performance...";
+
+            try {
+                const response = await fetch(
+                    "/api/auction-data/?" + params.toString()
+                );
+
+                if (!response.ok) {
+                    throw new Error("Unable to retrieve market comparison data.");
+                }
+
+                const data = await response.json();
+                comparisonMarketData = data.market_chart_data || {};
+
+                populateComparisonMarketOptions();
+                updateMarketPerformance();
+            } catch (error) {
+                console.error(error);
+                status.textContent = "Unable to load market comparison. Please try again.";
+                document.getElementById("marketPerformanceBody").innerHTML = `
+                    <tr><td colspan="5" class="text-center text-danger py-4">
+                        Market comparison data could not be loaded.
+                    </td></tr>`;
+            }
+        }
+
+
+        function populateComparisonMarketOptions() {
+            const select = document.getElementById("comparisonMarkets");
+            const marketNames = Object.keys(comparisonMarketData).sort();
+
+            if (!comparisonMarketsInitialized) {
+                const ranked = marketNames
+                    .map(name => ({
+                        name,
+                        latestDate: comparisonMarketData[name]?.length
+                            ? comparisonMarketData[name][comparisonMarketData[name].length - 1].date
+                            : ""
+                    }))
+                    .sort((a, b) => new Date(b.latestDate) - new Date(a.latestDate));
+
+                const defaultMarkets = new Set(ranked.slice(0, 5).map(item => item.name));
+
+                select.innerHTML = marketNames.map(name => `
+                    <option value="${escapeHTML(name)}" ${defaultMarkets.has(name) ? "selected" : ""}>
+                        ${escapeHTML(name)}
+                    </option>
+                `).join("");
+
+                comparisonMarketsInitialized = true;
+                return;
+            }
+
+            const previousSelection = new Set(
+                Array.from(select.selectedOptions).map(option => option.value)
+            );
+
+            select.innerHTML = marketNames.map(name => `
+                <option value="${escapeHTML(name)}" ${previousSelection.has(name) ? "selected" : ""}>
+                    ${escapeHTML(name)}
+                </option>
+            `).join("");
+
+            const selectedCount = Array.from(select.selectedOptions).length;
+            if (selectedCount === 0 && marketNames.length) {
+                Array.from(select.options).slice(0, Math.min(5, marketNames.length))
+                    .forEach(option => { option.selected = true; });
+            }
+        }
+
+
+        function updateMarketPerformance() {
+            const select = document.getElementById("comparisonMarkets");
+            const selectedNames = Array.from(select.selectedOptions).map(option => option.value);
+            const status = document.getElementById("marketComparisonStatus");
+            const tbody = document.getElementById("marketPerformanceBody");
+
+            if (selectedNames.length > 6) {
+                status.textContent = "Please select no more than 6 markets.";
+                return;
+            }
+
+            const summaries = selectedNames.map(name => {
+                const records = comparisonMarketData[name] || [];
+                const latest = records.length ? records[records.length - 1] : null;
+                const previous = records.length > 1 ? records[records.length - 2] : null;
+                const change = latest && previous
+                    ? Number(latest.price) - Number(previous.price)
+                    : null;
+                const percent = change !== null && Number(previous.price) !== 0
+                    ? (change / Number(previous.price)) * 100
+                    : null;
+
+                return { name, latest, previous, change, percent };
+            }).filter(item => item.latest);
+
+            if (!summaries.length) {
+                document.getElementById("comparisonHighest").textContent = "—";
+                document.getElementById("comparisonLowest").textContent = "—";
+                document.getElementById("comparisonSpread").textContent = "—";
+                document.getElementById("comparisonHighestNote").textContent = "No market selected";
+                document.getElementById("comparisonLowestNote").textContent = "No market selected";
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4">Select one or more markets to see their performance.</td></tr>`;
+                renderMarketPerformanceChart([], []);
+                status.textContent = "No markets selected.";
+                return;
+            }
+
+            const ranked = [...summaries].sort(
+                (a, b) => Number(b.latest.price) - Number(a.latest.price)
+            );
+            const highest = ranked[0];
+            const lowest = ranked[ranked.length - 1];
+            const spread = Number(highest.latest.price) - Number(lowest.latest.price);
+
+            document.getElementById("comparisonHighest").textContent = formatPrice(highest.latest.price);
+            document.getElementById("comparisonHighestNote").textContent = highest.name + " · " + highest.latest.date;
+            document.getElementById("comparisonLowest").textContent = formatPrice(lowest.latest.price);
+            document.getElementById("comparisonLowestNote").textContent = lowest.name + " · " + lowest.latest.date;
+            document.getElementById("comparisonSpread").textContent = formatPrice(spread);
+
+            tbody.innerHTML = ranked.map(item => {
+                let movement = "Not enough history";
+                let movementClass = "movement-flat";
+
+                if (item.change !== null) {
+                    if (item.change > 0) {
+                        movement = `▲ ${Math.abs(item.percent ?? 0).toFixed(2)}%`;
+                        movementClass = "movement-up";
+                    } else if (item.change < 0) {
+                        movement = `▼ ${Math.abs(item.percent ?? 0).toFixed(2)}%`;
+                        movementClass = "movement-down";
+                    } else {
+                        movement = "— 0.00%";
+                    }
+                }
+
+                return `
+                    <tr>
+                        <td class="fw-semibold">${escapeHTML(item.name)}</td>
+                        <td>${escapeHTML(item.latest.date)}</td>
+                        <td class="price-value">${formatPrice(item.latest.price)}</td>
+                        <td>${item.previous ? formatPrice(item.previous.price) : "N/A"}</td>
+                        <td><span class="movement-pill ${movementClass}">${movement}</span></td>
+                    </tr>`;
+            }).join("");
+
+            renderMarketPerformanceChart(
+                ranked.map(item => item.name),
+                ranked.map(item => Number(item.latest.price))
+            );
+
+            status.textContent =
+                `Comparing ${summaries.length} market(s). Each figure uses that market's latest available auction record.`;
+        }
+
+
+        function renderMarketPerformanceChart(labels, values) {
+            const colors = ["#6f8b62", "#c49a55", "#718ba2", "#bd7659", "#8a79a8", "#6d9a91"];
+            const chartData = {
+                labels,
+                datasets: [{
+                    label: "Latest available average price (₹/kg)",
+                    data: values,
+                    backgroundColor: labels.map((label, index) => colors[index % colors.length]),
+                    borderRadius: 8,
+                    maxBarThickness: 54
+                }]
+            };
+
+            if (marketPerformanceChart) {
+                marketPerformanceChart.data = chartData;
+                marketPerformanceChart.update();
+                return;
+            }
+
+            marketPerformanceChart = new Chart(
+                document.getElementById("marketPerformanceChart"),
+                {
+                    type: "bar",
+                    data: chartData,
+                    options: {
+                        indexAxis: "y",
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: context => " " + formatPrice(context.raw) + " per kg"
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: { display: true, text: "Average price (₹/kg)" },
+                                grid: { color: "rgba(90,105,91,.09)" }
+                            },
+                            y: {
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+
+        document.getElementById("comparisonMarkets")
+            .addEventListener("change", updateMarketPerformance);
+
+
+        // =====================================
+        // LOAD MARKET INTELLIGENCE API
+        // =====================================
+
+        async function loadMarketInsights() {
+
+            const params = getFilterParameters();
+
+            const response = await fetch(
+                "/api/market-insights/?" + params.toString()
+            );
+
+            if (!response.ok) {
+                throw new Error("Unable to load market insights.");
+            }
+
+            const data = await response.json();
+
+            if (!data.has_data) {
+                showNoInsights();
+                return;
+            }
+
+            updatePriceInsights(data);
+            updateMarketRanking(data.market_ranking);
+            updateTypeComparison(data.type_comparison);
+            updateTypeHistory(data.type_history);
+        }
+
+
+        // =====================================
+        // DISPLAY NO-DATA MESSAGE
+        // =====================================
+
+        function showNoInsights() {
+
+            const ids = [
+                "latestAverage",
+                "previousAverage",
+                "priceDifference",
+                "priceMovement",
+                "highestMarket",
+                "lowestMarket"
+            ];
+
+            ids.forEach(id => {
+                document.getElementById(id).textContent = "N/A";
+            });
+
+            document.getElementById("previousDate").textContent =
+                "No previous auction date";
+
+            document.getElementById("highestMarketPrice").textContent = "";
+            document.getElementById("lowestMarketPrice").textContent = "";
+
+            document.getElementById("insightDate").textContent =
+                "No matching auction data";
+
+            document.getElementById("marketRankingBody").innerHTML = `
+                <tr>
+                    <td colspan="3" class="text-center py-4">
+                        No market data available.
+                    </td>
+                </tr>
+            `;
+
+            updateTypeComparison([]);
+            updateTypeHistory([]);
+        }
+
+
+        // =====================================
+        // UPDATE PRICE MOVEMENT CARDS
+        // =====================================
+
+        function updatePriceInsights(data) {
+
+            document.getElementById("insightDate").textContent =
+                "Latest auction: " + data.latest_date;
+
+            document.getElementById("latestAverage").textContent =
+                formatPrice(data.latest_average);
+
+            document.getElementById("previousAverage").textContent =
+                formatPrice(data.previous_average);
+
+            document.getElementById("previousDate").textContent =
+                data.previous_date
+                    ? "Previous auction: " + data.previous_date
+                    : "No previous auction date available";
+
+            const differenceElement =
+                document.getElementById("priceDifference");
+
+            const movementElement =
+                document.getElementById("priceMovement");
+
+            if (data.price_change === null) {
+
+                differenceElement.textContent = "N/A";
+                movementElement.textContent = "N/A";
+
+                differenceElement.className = "insight-value neutral";
+                movementElement.className = "insight-value neutral";
+
+            } else {
+
+                const difference = Number(data.price_change);
+
+                const differenceText =
+                    (difference > 0 ? "+" : "") +
+                    formatPrice(difference);
+
+                differenceElement.textContent = differenceText;
+
+                differenceElement.className =
+                    "insight-value " +
+                    (difference > 0
+                        ? "positive"
+                        : difference < 0
+                            ? "negative"
+                            : "neutral");
+
+                if (data.price_change_percent !== null) {
+
+                    const percentage =
+                        Number(data.price_change_percent);
+
+                    movementElement.textContent =
+                        (percentage > 0 ? "▲ " : percentage < 0 ? "▼ " : "") +
+                        Math.abs(percentage).toFixed(2) + "%";
+
+                    movementElement.className =
+                        "insight-value " +
+                        (percentage > 0
+                            ? "positive"
+                            : percentage < 0
+                                ? "negative"
+                                : "neutral");
+
+                } else {
+
+                    movementElement.textContent = "N/A";
+                    movementElement.className = "insight-value neutral";
+
+                }
+            }
+
+            // Highest market
+
+            if (data.highest_market) {
+
+                document.getElementById("highestMarket").textContent =
+                    data.highest_market.market;
+
+                document.getElementById("highestMarketPrice").textContent =
+                    formatPrice(data.highest_market.average_price) +
+                    " per kg";
+
+            } else {
+
+                document.getElementById("highestMarket").textContent = "N/A";
+                document.getElementById("highestMarketPrice").textContent = "";
+
+            }
+
+            // Lowest market
+
+            if (data.lowest_market) {
+
+                document.getElementById("lowestMarket").textContent =
+                    data.lowest_market.market;
+
+                document.getElementById("lowestMarketPrice").textContent =
+                    formatPrice(data.lowest_market.average_price) +
+                    " per kg";
+
+            } else {
+
+                document.getElementById("lowestMarket").textContent = "N/A";
+                document.getElementById("lowestMarketPrice").textContent = "";
+
+            }
+        }
+
+
+        // =====================================
+        // MARKET RANKING TABLE
+        // =====================================
+
+        function updateMarketRanking(ranking) {
+
+            const tbody =
+                document.getElementById("marketRankingBody");
+
+            if (!ranking || !ranking.length) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            No market ranking data available.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            tbody.innerHTML = ranking.map((item, index) => {
+
+                const market = escapeHTML(item.market);
+
+                return `
+                    <tr>
+                        <td>
+                            <span class="ranking-number">
+                                ${index + 1}
+                            </span>
+                        </td>
+
+                        <td>${market}</td>
+
+                        <td class="price-value">
+                            ${formatPrice(item.average_price)}
+                        </td>
+                    </tr>
+                `;
+
+            }).join("");
+        }
+
+
+        // =====================================
+        // CARDAMOM TYPE COMPARISON CHART
+        // =====================================
+
+        function updateTypeComparison(typeData) {
+
+            const labels = typeData.map(item => item.cardamom_type);
+
+            const prices = typeData.map(item => item.average_price);
+
+            const chartData = {
+                labels: labels,
+
+                datasets: [{
+                    label: "Latest Average Price (₹/kg)",
+                    data: prices,
+                    backgroundColor: [
+                        "#1c6845",
+                        "#c9a45c",
+                        "#315b83",
+                        "#a35d42"
+                    ],
+                    borderRadius: 6
+                }]
+            };
+
+            if (typeComparisonChart) {
+
+                typeComparisonChart.data = chartData;
+                typeComparisonChart.update();
+
+                return;
+            }
+
+            typeComparisonChart = new Chart(
+                document.getElementById("typeComparisonChart"),
+                {
+                    type: "bar",
+                    data: chartData,
+
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: "Average Price (₹/kg)"
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+
+        // =====================================
+        // CARDAMOM TYPE HISTORICAL CHART
+        // =====================================
+
+        function updateTypeHistory(historyData) {
+
+            const allDates = [
+                ...new Set(historyData.map(item => item.date))
+            ];
+
+            const types = [
+                ...new Set(historyData.map(item => item.cardamom_type))
+            ];
+
+            const colors = [
+                "#1c6845",
+                "#c9a45c",
+                "#315b83",
+                "#a35d42",
+                "#8064a2"
+            ];
+
+            const datasets = types.map((type, index) => {
+
+                const priceByDate = {};
+
+                historyData
+                    .filter(item => item.cardamom_type === type)
+                    .forEach(item => {
+                        priceByDate[item.date] = item.average_price;
+                    });
+
+                return {
+                    label: type,
+
+                    data: allDates.map(date =>
+                        priceByDate[date] ?? null
+                    ),
+
+                    borderColor: colors[index % colors.length],
+                    backgroundColor: colors[index % colors.length],
+                    borderWidth: 3,
+                    tension: 0.3,
+                    pointRadius: 0,
+                    spanGaps: false
+                };
+            });
+
+            const chartData = {
+                labels: allDates,
+                datasets: datasets
+            };
+
+            if (typeHistoryChart) {
+
+                typeHistoryChart.data = chartData;
+                typeHistoryChart.update();
+
+                return;
+            }
+
+            typeHistoryChart = new Chart(
+                document.getElementById("typeHistoryChart"),
+                {
+                    type: "line",
+                    data: chartData,
+
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        interaction: {
+                            intersect: false,
+                            mode: "index"
+                        },
+
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: "Average Price (₹/kg)"
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+
+        // =====================================
+        // AUCTION RECORDS API
+        // =====================================
+
+        async function loadAuctionRecords() {
+
+            const search =
+                document.getElementById("recordSearch").value.trim();
+
+            const pageSize =
+                document.getElementById("recordsPerPage").value;
+
+            const params = getFilterParameters();
+
+            if (search) {
+                params.append("search", search);
+            }
+
+            params.append("page", currentPage);
+            params.append("page_size", pageSize);
+            params.append("sort", currentSort);
+            params.append("order", currentOrder);
+
+            const status =
+                document.getElementById("recordsStatus");
+
+            const tableBody =
+                document.getElementById("auctionRecordsBody");
+
+            status.textContent = "Loading auction records...";
+
+            try {
+
+                const response = await fetch(
+                    "/api/auction-records/?" + params.toString()
+                );
+
+                if (!response.ok) {
+                    throw new Error("Auction records API returned an error.");
+                }
+
+                const data = await response.json();
+
+                totalPages = Math.max(data.total_pages || 1, 1);
+
+                renderAuctionRecords(data.records || []);
+
+                status.textContent =
+                    "Found " +
+                    Number(data.total_records || 0).toLocaleString("en-IN") +
+                    " matching records.";
+
+                updatePagination(data);
+
+            } catch (error) {
+
+                console.error(error);
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center text-danger py-4">
+                            Unable to load auction records.
+                        </td>
+                    </tr>
+                `;
+
+                status.textContent = "Error loading auction records.";
+
+            }
+        }
+
+
+        // =====================================
+        // ESCAPE HTML VALUES
+        // =====================================
+
+        function escapeHTML(value) {
+
+            return String(value ?? "").replace(/[&<>"']/g, character => {
+
+                const entities = {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+                };
+
+                return entities[character];
+
+            });
+        }
+
+
+        // =====================================
+        // RENDER AUCTION TABLE
+        // =====================================
+
+        function renderAuctionRecords(records) {
+
+            const tableBody =
+                document.getElementById("auctionRecordsBody");
+
+            if (!records.length) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center py-4">
+                            No auction records found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            tableBody.innerHTML = records.map(record => {
+
+                const date = escapeHTML(record.auction_date);
+                const market = escapeHTML(record.market);
+                const type = escapeHTML(record.cardamom_type);
+
+                const price = record.price_per_kg !== null
+                    ? Number(record.price_per_kg).toLocaleString(
+                        "en-IN",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    )
+                    : "N/A";
+
+                return `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${market}</td>
+                        <td>${type}</td>
+                        <td class="price-value">₹${price}</td>
+                    </tr>
+                `;
+
+            }).join("");
+        }
+
+
+        // =====================================
+        // PAGINATION
+        // =====================================
+
+        function updatePagination(data) {
+
+            const page = data.current_page || 1;
+            const pages = data.total_pages || 1;
+
+            document.getElementById("paginationInfo").textContent =
+                "Page " + page + " of " + pages;
+
+            document.getElementById("previousPageItem").classList.toggle(
+                "disabled",
+                !data.has_previous
+            );
+
+            document.getElementById("nextPageItem").classList.toggle(
+                "disabled",
+                !data.has_next
+            );
+
+            document.getElementById("previousPage").disabled =
+                !data.has_previous;
+
+            document.getElementById("nextPage").disabled =
+                !data.has_next;
+        }
+
+
+        // =====================================
+        // SORT AUCTION TABLE
+        // =====================================
+
+        document.querySelectorAll("[data-sort]").forEach(heading => {
+
+            heading.addEventListener("click", function() {
+
+                const selectedSort = this.dataset.sort;
+
+                if (currentSort === selectedSort) {
+
+                    currentOrder =
+                        currentOrder === "asc" ? "desc" : "asc";
+
+                } else {
+
+                    currentSort = selectedSort;
+                    currentOrder = "asc";
+
+                }
+
+                currentPage = 1;
+                loadAuctionRecords();
+
+            });
+
+        });
+
+
+        // =====================================
+        // SEARCH AUCTION RECORDS
+        // =====================================
+
+        document.getElementById("recordSearch")
+            .addEventListener("keydown", function(event) {
+
+                if (event.key === "Enter") {
+
+                    currentPage = 1;
+                    loadAuctionRecords();
+
+                }
+
+            });
+
+
+        // =====================================
+        // REFRESH AUCTION RECORDS
+        // =====================================
+
+        document.getElementById("refreshRecords")
+            .addEventListener("click", function() {
+
+                currentPage = 1;
+                loadAuctionRecords();
+
+            });
+
+
+        // =====================================
+        // CHANGE PAGE SIZE
+        // =====================================
+
+        document.getElementById("recordsPerPage")
+            .addEventListener("change", function() {
+
+                currentPage = 1;
+                loadAuctionRecords();
+
+            });
+
+
+        // =====================================
+        // PREVIOUS PAGE
+        // =====================================
+
+        document.getElementById("previousPage")
+            .addEventListener("click", function() {
+
+                if (currentPage > 1) {
+
+                    currentPage--;
+                    loadAuctionRecords();
+
+                }
+
+            });
+
+
+        // =====================================
+        // NEXT PAGE
+        // =====================================
+
+        document.getElementById("nextPage")
+            .addEventListener("click", function() {
+
+                if (currentPage < totalPages) {
+
+                    currentPage++;
+                    loadAuctionRecords();
+
+                }
+
+            });
+
+
+        // =====================================
+        // FETCH ALL MATCHING RECORDS FOR EXPORT
+        // =====================================
+
+        async function fetchAllMatchingRecords() {
+
+            const search =
+                document.getElementById("recordSearch").value.trim();
+
+            const params = getFilterParameters();
+
+            if (search) {
+                params.append("search", search);
+            }
+
+            params.append("page_size", 100);
+            params.append("sort", currentSort);
+            params.append("order", currentOrder);
+            params.append("page", 1);
+
+            const allRecords = [];
+
+            const firstResponse = await fetch(
+                "/api/auction-records/?" + params.toString()
+            );
+
+            if (!firstResponse.ok) {
+                throw new Error("Unable to export auction records.");
+            }
+
+            const firstData = await firstResponse.json();
+
+            allRecords.push(...(firstData.records || []));
+
+            const pages = firstData.total_pages || 1;
+
+            for (let page = 2; page <= pages; page++) {
+
+                params.set("page", page);
+
+                const response = await fetch(
+                    "/api/auction-records/?" + params.toString()
+                );
+
+                if (!response.ok) {
+                    throw new Error("Unable to retrieve export records.");
+                }
+
+                const data = await response.json();
+
+                allRecords.push(...(data.records || []));
+
+            }
+
+            return allRecords;
+        }
+
+
+        // =====================================
+        // CSV DOWNLOAD
+        // =====================================
+
+        document.getElementById("exportCSV")
+            .addEventListener("click", async function() {
+
+                const button = this;
+
+                button.disabled = true;
+                button.textContent = "Preparing CSV...";
+
+                try {
+
+                    const records = await fetchAllMatchingRecords();
+
+                    if (!records.length) {
+                        alert("No records available to export.");
+                        return;
+                    }
+
+                    const headers = [
+                        "Auction Date",
+                        "Market",
+                        "Cardamom Type",
+                        "Price per Kg"
+                    ];
+
+                    const rows = records.map(record => [
+                        record.auction_date,
+                        record.market,
+                        record.cardamom_type,
+                        record.price_per_kg
+                    ]);
+
+                    const csv = [
+                        headers,
+                        ...rows
+                    ].map(row =>
+                        row.map(value =>
+                            '"' + String(value ?? "").replace(/"/g, '""') + '"'
+                        ).join(",")
+                    ).join("\r\n");
+
+                    const blob = new Blob(
+                        ["\uFEFF" + csv],
+                        { type: "text/csv;charset=utf-8;" }
+                    );
+
+                    downloadBlob(blob, "cardamom_auction_records.csv");
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("CSV export failed.");
+
+                } finally {
+
+                    button.disabled = false;
+                    button.textContent = "Download CSV";
+
+                }
+
+            });
+
+
+        // =====================================
+        // EXCEL DOWNLOAD
+        // =====================================
+
+        document.getElementById("exportExcel")
+            .addEventListener("click", async function() {
+
+                const button = this;
+
+                button.disabled = true;
+                button.textContent = "Preparing Excel...";
+
+                try {
+
+                    const records = await fetchAllMatchingRecords();
+
+                    if (!records.length) {
+                        alert("No records available to export.");
+                        return;
+                    }
+
+                    const excelRows = records.map(record => ({
+                        "Auction Date": record.auction_date,
+                        "Market": record.market,
+                        "Cardamom Type": record.cardamom_type,
+                        "Price per Kg": record.price_per_kg
+                    }));
+
+                    const worksheet =
+                        XLSX.utils.json_to_sheet(excelRows);
+
+                    const workbook = XLSX.utils.book_new();
+
+                    XLSX.utils.book_append_sheet(
+                        workbook,
+                        worksheet,
+                        "Auction Records"
+                    );
+
+                    XLSX.writeFile(
+                        workbook,
+                        "cardamom_auction_records.xlsx"
+                    );
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("Excel export failed.");
+
+                } finally {
+
+                    button.disabled = false;
+                    button.textContent = "Download Excel";
+
+                }
+
+            });
+
+
+        // =====================================
+        // DOWNLOAD HELPER
+        // =====================================
+
+        function downloadBlob(blob, filename) {
+
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = filename;
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+
+            URL.revokeObjectURL(url);
+        }
+
+
+        // =====================================
+        // QUICK DATE RANGE FILTERS
+        // =====================================
+
+        document.querySelectorAll(".quick-date-btn").forEach(button => {
+            button.addEventListener("click", function() {
+                const startInput = document.getElementById("startDate");
+                const endInput = document.getElementById("endDate");
+                const selectedRange = this.dataset.days;
+
+                document.querySelectorAll(".quick-date-btn").forEach(item => {
+                    item.classList.remove("active");
+                });
+                this.classList.add("active");
+
+                if (selectedRange === "all") {
+                    startInput.value = "";
+                    endInput.value = "";
+                } else {
+                    const endDate = new Date();
+                    const startDate = new Date();
+                    startDate.setDate(startDate.getDate() - (Number(selectedRange) - 1));
+
+                    const toLocalDateString = date => {
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, "0");
+                        const day = String(date.getDate()).padStart(2, "0");
+                        return `${year}-${month}-${day}`;
+                    };
+
+                    startInput.value = toLocalDateString(startDate);
+                    endInput.value = toLocalDateString(endDate);
+                }
+
+                currentPage = 1;
+                loadDashboardData();
+            });
+        });
+
+
+        // =====================================
+        // APPLY FILTERS
+        // =====================================
+
+        document.getElementById("applyFilters")
+            .addEventListener("click", function() {
+
+                currentPage = 1;
+                loadDashboardData();
+
+            });
+
+
+        // =====================================
+        // RESET FILTERS
+        // =====================================
+
+        document.getElementById("resetFilters")
+            .addEventListener("click", function() {
+
+                document.getElementById("marketFilter").value = "";
+                document.getElementById("typeFilter").value = "";
+                document.getElementById("startDate").value = "";
+                document.getElementById("endDate").value = "";
+                document.getElementById("minPriceFilter").value = "";
+                document.getElementById("maxPriceFilter").value = "";
+                document.getElementById("recordSearch").value = "";
+
+                document.querySelectorAll(".quick-date-btn").forEach(item => {
+                    item.classList.remove("active");
+                });
+
+                comparisonMarketsInitialized = false;
+
+                currentPage = 1;
+
+                loadDashboardData();
+
+            });
+
+
+
+        // =====================================
+        // FORECAST, ALERTS & EXPORT INTELLIGENCE
+        // =====================================
+        let forecastChart = null;
+        let exportShortlistRows = [];
+        let latestFilteredAverage = null;
+
+        async function loadForecastAndExportIntelligence() {
+            const params = getFilterParameters();
+            const horizon = document.getElementById("forecastHorizon").value;
+            params.set("horizon", horizon);
+            try {
+                const response = await fetch("/api/forecast/?" + params.toString());
+                if (!response.ok) throw new Error("Forecast API returned " + response.status);
+                const data = await response.json();
+                document.getElementById("forecastAverage").textContent = data.forecast_average == null ? "N/A" : formatPrice(data.forecast_average);
+                document.getElementById("forecastDirection").textContent = data.direction || "N/A";
+                document.getElementById("forecastAccuracy").textContent = data.mape == null ? "Not available" : Number(data.mape).toFixed(1) + "%";
+                document.getElementById("forecastRangeLabel").textContent = "Next " + horizon + " days";
+                document.getElementById("forecastNote").textContent = data.note;
+                const labels = [...data.history.map(x => x.date), ...data.forecast.map(x => x.date)];
+                const actual = [...data.history.map(x => x.price), ...Array(data.forecast.length).fill(null)];
+                const predicted = [...Array(Math.max(data.history.length - 1, 0)).fill(null), data.history.length ? data.history[data.history.length - 1].price : null, ...data.forecast.map(x => x.price)];
+                const chartData = {labels, datasets:[{label:"Actual average (₹/kg)",data:actual,borderColor:"#294b3b",backgroundColor:"rgba(41,75,59,.08)",fill:true},{label:"Trend forecast (₹/kg)",data:predicted,borderColor:"#c49a55",borderDash:[7,5],pointRadius:2,fill:false}]};
+                if (forecastChart) { forecastChart.data=chartData; forecastChart.update(); }
+                else forecastChart = new Chart(document.getElementById("forecastChart"),{type:"line",data:chartData,options:{responsive:true,maintainAspectRatio:false,spanGaps:false,plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+": "+formatPrice(c.raw)}}},scales:{y:{title:{display:true,text:"Price (₹/kg)"}}}}});
+            } catch(error) { console.error(error); document.getElementById("forecastNote").textContent="Forecast could not be loaded: "+error.message; }
+            try {
+                const response = await fetch("/api/export-intelligence/?" + getFilterParameters().toString());
+                if (!response.ok) throw new Error("Export intelligence API returned " + response.status);
+                const data = await response.json(); exportShortlistRows = data.markets || [];
+                document.getElementById("exportMarketCount").textContent=exportShortlistRows.length;
+                document.getElementById("exportTopMarket").textContent=data.highest ? data.highest.market : "N/A";
+                document.getElementById("exportTopPrice").textContent=data.highest ? formatPrice(data.highest.average_price) : "No market data";
+                document.getElementById("exportLowMarket").textContent=data.lowest ? data.lowest.market : "N/A";
+                document.getElementById("exportLowPrice").textContent=data.lowest ? formatPrice(data.lowest.average_price) : "No market data";
+                document.getElementById("exportIntelBody").innerHTML=exportShortlistRows.length ? exportShortlistRows.map(x=>`<tr><td>${escapeHTML(x.market)}</td><td>${escapeHTML(x.latest_date)}</td><td>${formatPrice(x.average_price)}</td><td>${x.previous_average==null?"N/A":formatPrice(x.previous_average)}</td><td>${x.change_percent==null?"N/A":Number(x.change_percent).toFixed(2)+"%"}</td><td>${x.volatility==null?"N/A":Number(x.volatility).toFixed(2)+"%"}</td></tr>`).join("") : '<tr><td colspan="6" class="text-center">No market data for these filters.</td></tr>';
+            } catch(error) { console.error(error); document.getElementById("exportIntelBody").innerHTML='<tr><td colspan="6" class="text-danger text-center">Could not load export indicators.</td></tr>'; }
+        }
+
+        function checkBrowserPriceAlert(value) {
+            latestFilteredAverage = value;
+            document.getElementById("alertCurrentPrice").textContent=value==null?"N/A":formatPrice(value);
+            let alertConfig=null; try { alertConfig=JSON.parse(localStorage.getItem("cardamomPriceAlert")||"null"); } catch(e) {}
+            const status=document.getElementById("alertStatus");
+            if (!alertConfig) { status.textContent="No alert configured"; return; }
+            const hit=alertConfig.condition==="above" ? value>=alertConfig.price : value<=alertConfig.price;
+            status.textContent="Alert when "+alertConfig.condition+" "+formatPrice(alertConfig.price);
+            if (hit && value!=null) document.getElementById("alertMessage").textContent="Threshold reached: current average is "+formatPrice(value)+". This is an on-screen browser alert.";
+            else document.getElementById("alertMessage").textContent="Threshold not reached.";
+        }
+
+        document.getElementById("savePriceAlert").addEventListener("click",function(){
+            const price=Number(document.getElementById("alertPrice").value);
+            if (!Number.isFinite(price)||price<0) { document.getElementById("alertMessage").textContent="Enter a valid non-negative price."; return; }
+            const config={condition:document.getElementById("alertCondition").value,price};
+            localStorage.setItem("cardamomPriceAlert",JSON.stringify(config));
+            document.getElementById("alertMessage").textContent="Alert saved in this browser.";
+            checkBrowserPriceAlert(latestFilteredAverage);
+        });
+        document.getElementById("clearPriceAlert").addEventListener("click",function(){localStorage.removeItem("cardamomPriceAlert");document.getElementById("alertStatus").textContent="No alert configured";document.getElementById("alertMessage").textContent="Alert removed.";});
+        document.getElementById("forecastHorizon").addEventListener("change",loadForecastAndExportIntelligence);
+        document.getElementById("downloadExportIntel").addEventListener("click",function(){
+            if(!exportShortlistRows.length){alert("No market shortlist data to export.");return;}
+            const headers=["Market","Latest auction date","Average price INR per kg","Previous average INR per kg","Change percent","Volatility percent"];
+            const rows=exportShortlistRows.map(x=>[x.market,x.latest_date,x.average_price,x.previous_average,x.change_percent,x.volatility]);
+            const csv=[headers,...rows].map(row=>row.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"').join(",")).join("\r\n");
+            const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="cardamom_market_shortlist.csv";a.click();URL.revokeObjectURL(url);
+        });
+
+
+
+        let marketSpreadChart = null;
+
+        async function loadNewIntelligenceModules() {
+            const query = getFilterParameters().toString();
+            try {
+                const response = await fetch("/api/market-analytics/?" + query);
+                if (!response.ok) throw new Error("Market analytics API returned " + response.status);
+                const data = await response.json();
+                renderMarketHeatmap(data.heatmap || []);
+                renderDailyReport(data.report || {});
+                renderAnomalies(data.anomalies || []);
+                renderMarketSpread(data.spread || []);
+            } catch (error) {
+                console.error("Market intelligence modules:", error);
+                document.getElementById("dailyReportText").textContent = "Unable to prepare the market brief. Check the server response.";
+                document.getElementById("heatmapTable").innerHTML = '<tbody><tr><td>Unable to load heatmap.</td></tr></tbody>';
+                document.getElementById("anomalyBody").innerHTML = '<tr><td colspan="4" class="text-danger text-center">Unable to load anomaly analysis.</td></tr>';
+            }
+        }
+
+        function renderMarketHeatmap(rows) {
+            const table = document.getElementById("heatmapTable");
+            if (!rows.length) { table.innerHTML='<tbody><tr><td>No market/date data for these filters.</td></tr></tbody>'; return; }
+            const dates = [...new Set(rows.map(x=>x.date))];
+            const markets = [...new Set(rows.map(x=>x.market))];
+            const values = rows.map(x=>Number(x.average)); const min=Math.min(...values), max=Math.max(...values);
+            const lookup = new Map(rows.map(x=>[x.market+"|"+x.date,Number(x.average)]));
+            let out='<thead><tr><th>Market</th>'+dates.map(d=>'<th>'+escapeHTML(d)+'</th>').join('')+'</tr></thead><tbody>';
+            markets.forEach(m=>{out+='<tr><th>'+escapeHTML(m)+'</th>';dates.forEach(d=>{const v=lookup.get(m+'|'+d);if(v===undefined){out+='<td class="heat-empty">—</td>';return;}const ratio=max===min?.5:(v-min)/(max-min);const hue=145-ratio*105;const light=94-ratio*22;out+='<td style="background:hsl('+hue+',52%,'+light+'%)" title="'+escapeHTML(m)+' • '+escapeHTML(d)+'">'+formatPrice(v)+'</td>';});out+='</tr>';});
+            table.innerHTML=out+'</tbody>';
+        }
+
+        function renderDailyReport(report) {
+            document.getElementById("reportDirection").textContent=report.direction||"Insufficient data";
+            document.getElementById("reportDate").textContent=report.latest_date||"No auction date";
+            document.getElementById("reportMovement").textContent=report.change_percent==null?"N/A":(report.change_percent>0?"+":"")+Number(report.change_percent).toFixed(2)+"%";
+            document.getElementById("reportMarketCount").textContent=report.market_count??0;
+            document.getElementById("dailyReportText").innerHTML=(report.paragraphs||["Not enough auction history to generate a market brief."]).map(p=>'<p class="mb-2">'+escapeHTML(p)+'</p>').join('');
+        }
+
+        function renderAnomalies(rows) {
+            const body=document.getElementById("anomalyBody");
+            body.innerHTML=rows.length?rows.map(x=>'<tr><td>'+escapeHTML(x.market)+'</td><td>'+escapeHTML(x.date)+'</td><td>'+formatPrice(x.average)+'</td><td>'+((x.deviation_percent>0?'+':'')+Number(x.deviation_percent).toFixed(2))+'%</td></tr>').join(''):'<tr><td colspan="4" class="text-center">No unusual movements detected in the available history.</td></tr>';
+        }
+
+        function renderMarketSpread(rows) {
+            const labels=rows.map(x=>x.date), spreads=rows.map(x=>x.spread);
+            const canvas=document.getElementById("marketSpreadChart");
+            if(marketSpreadChart){marketSpreadChart.data.labels=labels;marketSpreadChart.data.datasets[0].data=spreads;marketSpreadChart.update();}
+            else marketSpreadChart=new Chart(canvas,{type:'bar',data:{labels,datasets:[{label:'Market spread (₹/kg)',data:spreads,backgroundColor:'rgba(214,109,77,.72)',borderColor:'#c85f42',borderRadius:7}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'₹/kg'}}}}});
+            const latest=rows.length?rows[rows.length-1]:null;
+            document.getElementById("spreadSummary").textContent=latest?'Latest spread: '+formatPrice(latest.spread)+' ('+latest.highest_market+' vs '+latest.lowest_market+').':'No comparable market spread available.';
+        }
+
+        function calculateFarmerProfit() {
+            const ids=['profitQuantity','profitPrice','profitTransport','profitCommission','profitOther'];
+            const vals=ids.map(id=>Number(document.getElementById(id).value||0));
+            const [qty,price,transport,commission,other]=vals;
+            const valid=vals.every(Number.isFinite)&&qty>=0&&price>=0&&transport>=0&&other>=0&&commission>=0&&commission<=100;
+            if(!valid){document.getElementById('profitPerKg').textContent='Please enter non-negative values; commission must be between 0 and 100%.';return;}
+            const gross=qty*price, commissionCost=gross*commission/100, costs=transport+commissionCost+other, net=gross-costs;
+            document.getElementById('profitGross').textContent=formatPrice(gross);
+            document.getElementById('profitCosts').textContent=formatPrice(costs);
+            document.getElementById('profitNet').textContent=formatPrice(net);
+            document.getElementById('profitPerKg').textContent=qty>0?'Estimated net proceeds per kg: '+formatPrice(net/qty)+'. Commission: '+formatPrice(commissionCost)+'.':'Enter a quantity greater than zero to calculate net proceeds per kg.';
+        }
+
+        document.addEventListener('DOMContentLoaded',function(){
+            loadNewIntelligenceModules();
+            document.getElementById('refreshDailyReport').addEventListener('click',loadNewIntelligenceModules);
+            ['profitQuantity','profitPrice','profitTransport','profitCommission','profitOther'].forEach(id=>document.getElementById(id).addEventListener('input',calculateFarmerProfit));
+            calculateFarmerProfit();
+        });
+
+        // =====================================
+        // INITIAL DASHBOARD LOAD
+        // =====================================
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // Add scroll-reveal motion without changing dashboard data loading.
+            try {
+                const revealItems = document.querySelectorAll(
+                    ".section-card, .stat-card, .insight-card"
+                );
+
+                if ("IntersectionObserver" in window && revealItems.length) {
+                    revealItems.forEach(item => item.classList.add("reveal-on-scroll"));
+                    document.body.classList.add("motion-ready");
+
+                    const revealObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("is-visible");
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.08, rootMargin: "0px 0px -35px 0px" });
+
+                    revealItems.forEach(item => revealObserver.observe(item));
+                }
+            } catch (motionError) {
+                // Animation is optional; it must never interrupt dashboard loading.
+                console.warn("Dashboard motion enhancement skipped:", motionError);
+            }
+
+            loadDashboardData();
+
+        });
+
+    </script>
+
+</body>
+</html>
